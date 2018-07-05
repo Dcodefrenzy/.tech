@@ -3,8 +3,8 @@ ob_start();
 session_start();
 authenticate();
 $_SESSION['active'] = true;
-if(!isset($_GET['product_id'])){
-  header("Location:products");
+if(isset($_GET['unique_id'])){
+ $id = $_GET['unique_id'];
 }
 #Links to the header2.php
 $page_title = "Edit Product Image";
@@ -13,15 +13,13 @@ $link= "#";
 
 
 include 'include/header2.php';
-$getp = getProductById($conn,$_GET);
+$getp = getfarmerById($conn,$id);
 
   extract($getp);
 if($getp == false){
-  header("Location:products");
+  header("Location:farmers");
 }
-$flag = array("none", "top-selling", "popular-demand");
-$availability = array("1" =>"Available", "2" =>"Not Available");
-$promo = array("1" =>"On Promo", "2" =>"No Promo");
+
 
 
 $error = [];
@@ -46,7 +44,7 @@ if(array_key_exists('add', $_POST)){
   if(empty($error)){
     // die(var_dump($file_path));
   $ver = compressImage($_FILES, 'pic' ,80, 'uploads/');
-  replaceImagePath($conn, $ver, $file_path, $_GET);
+  replaceImagePath($conn, $ver, $file_path, $id);
   }else{
   foreach ($error as $err){
     echo $err;

@@ -4,14 +4,15 @@ session_start();
 authenticate();
 
 $_SESSION['active'] = true;
-$page_title = "View Products";
-$link= "products";
+$page_title = "View farmers";
+$link= "farmers";
 
 include 'include/header2.php';
  ?>
  <table id="tab">
    <thead>
      <tr>
+      <th>Number</th>
        <th>Firstname</th>
        <th>Lastname</th>
        <th>age</th>
@@ -21,15 +22,21 @@ include 'include/header2.php';
        <th>phone number</th>
        <th>Inventory</th>
        <th>Price</th>
-       <th>gurantor Name</th>
-       <th>gurantor Number</th>
+       <th>Availability</th>
+       <th>Season</th>
+       <th>Admin</th>
+       <th>Unique</th>
+       <th>gaurantor Name</th>
+       <th>gaurantor Number</th>
        <th>Image</th>
+       <th>Edit</th>
+       <th>Delete</th>
      </tr>
    </thead>
    <tbody>
      <?php
 
-     viewProducts($conn);
+     viewFarmers($conn);
      ?>
 
          </tbody>

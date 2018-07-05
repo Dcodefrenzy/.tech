@@ -40,7 +40,10 @@ $sub_cat_id =  NULL;
 if (isset($_GET['sub_cat_id'])) {
   $sub_cat_id = $_GET['sub_cat_id'];
 }
-
+$unique_id = NULL;
+if (isset($_GET['unique_id'])) {
+  $unique_id=$_GET['unique_id'];
+}
 
 
   $hid = NULL;
@@ -116,20 +119,22 @@ switch ($uri[1]) {
   include APP_PATH."/views/admin/editCategory.php";
   break;
 
-  case "editSubCategory?id=$category_id":
-  include APP_PATH."/views/admin/editSubCategory.php";
+  case "getLocal":
+  include APP_PATH."/views/admin/ajax/subcategory.php";
   break;
 
-  case "edit_products?product_id=$product_id":
-  include APP_PATH."/views/admin/editProducts.php";
+
+
+  case "edit_farmers?unique_id=$unique_id":
+  include APP_PATH."/views/admin/editFarmers.php";
   break;
 
-  case "editProductImage?product_id=$product_id":
-  include APP_PATH."/views/admin/editProductImage.php";
+  case "editfarmersImage?unique_id=$unique_id":
+  include APP_PATH."/views/admin/editfarmersImage.php";
   break;
 
-  case "deleteProducts?product_id=$product_id": //$product_id has been created
-  include APP_PATH."/views/admin/deleteProducts.php";
+  case "deletefarmers?unique_id=$unique_id": //$product_id has been created
+  include APP_PATH."/views/admin/deletefarmers.php";
   break;
 
   case "product_category?success=$success":
@@ -152,12 +157,12 @@ switch ($uri[1]) {
   include APP_PATH."/views/admin/deleteSubCategory.php";
   break;
 
-  case "add_products?success=$success":
-  include APP_PATH."/views/admin/addProducts.php";
+  case "add_farmers?success=$success":
+  include APP_PATH."/views/admin/addFarmers.php";
   break;
 
-  case "products?success=$success":
-  include APP_PATH."/views/admin/products.php";
+  case "farmers?success=$success":
+  include APP_PATH."/views/admin/farmers.php";
   break;
 
 
@@ -180,12 +185,16 @@ switch ($uri[1]) {
   include APP_PATH."/views/users/users_home.php";
   break;
 
+   case "about":
+  include APP_PATH."/views/users/users_about.php";
+  break;
+
    case "index":
   include APP_PATH."/views/users/users_home.php";
   break;
 
-  case "product":
-  include APP_PATH."/views/users/users_products.php";
+  case "view_farmers":
+  include APP_PATH."/views/users/users_farmers.php";
   break;
 
 
@@ -255,22 +264,12 @@ switch ($uri[1]) {
   break;
 
 
-  case "preview":
-  include APP_PATH."/views/users/users_preview.php";
+  case "profile":
+  include APP_PATH."/views/users/farmer_profile.php";
   break;
 
-  case "preview?hid=$hid":
-  include APP_PATH."/views/users/users_preview.php";
-  break;
-
-  case "getSub":
-  include APP_PATH."/views/users/get_sub_category.php";
-  break;
-
-
-
-  case "checkout":
-  include APP_PATH."/views/users/checkout.php";
+  case "profile?unique_id=$unique_id":
+  include APP_PATH."/views/users/farmer_profile.php";
   break;
 
 

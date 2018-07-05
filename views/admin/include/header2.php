@@ -18,7 +18,7 @@
 						<li><a href="#">View Users</a></li>
 						<li><a href="#">View Purchase</a></li>
 						<li><a href="logout">Logout</a></li>
-					<?php }elseif(isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']) && isset($_SESSION['admin_id']) == 1122334455){ ?>
+					<?php }elseif(isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']) && isset($_SESSION['admin_id']) == "Kolade4601044"){ ?>
 						<li><a href="<?php echo $link ?>" class="selected"><?php echo $page_title  ?></a></li>
 						<li><a href="admin_home">Home</a></li>
 						<li><a href="add_farmers">Add Farmer</a></li>

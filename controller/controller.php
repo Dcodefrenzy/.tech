@@ -117,7 +117,7 @@ function adminLogin($dbconn, $input){
     $result[] = true;
     $result[] = $row;
     extract($row);
-    $_SESSION['admin_id'] = $admin_id;
+    $_SESSION['admin_id'] = $hash_id;
     $_SESSION['admin_name'] = $firstname;
 
     header("Location: /admin_home");
@@ -181,10 +181,28 @@ function addFinalCategory($dbconn, $post){
  //header("Location: /final_category?success=$succ");
 }
 
+function getState($dbconn, $stateId){
+  $stmt= $dbconn->prepare("SELECT * FROM states WHERE state_id = :st");
+  $stmt->bindParam(':st', $stateId);
+  $stmt->execute();
+  while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
+    echo "<td>".$row['name']."</td>";
+  }
+}
+
+function getLocal($dbconn, $lgaId){
+  $stmt= $dbconn->prepare("SELECT * FROM locals WHERE local_id = :lga");
+  $stmt->bindParam(':lga', $lgaId);
+  $stmt->execute();
+  while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
+    echo "<td>".$row['local_name']."</td>";
+  }
+}
 
 
-function viewProducts($dbconn){
-  $stmt = $dbconn->prepare("SELECT * FROM product");
+function viewFarmers($dbconn){
+  $numb = 1;
+  $stmt = $dbconn->prepare("SELECT * FROM farmers");
   $stmt->execute();
   while($record = $stmt->fetch()){
     if($record['availability'] == 1){
@@ -193,30 +211,30 @@ function viewProducts($dbconn){
     if($record['availability'] == 2){
       $record['availability'] = "Not Available";
     }
-    if($record['promo_status'] == 2){
-      $record['promo_status'] = "No Promo";
-    }
-    if($record['promo_status'] == 1){
-      $record['promo_status'] = "On Promo";
-    }
+
 
     echo "<tr>";
-    echo "<td>".$record['description']."</td>";
-    echo "<td>".$record['product_id']."</td>";
-    echo "<td>".$record['product_name']."</td>";
-    echo "<td>".$record['maker']."</td>";
-    echo "<td>".$record['category']."</td>";
-    echo "<td>".$record['sub_category']."</td>";
-    echo "<td>&#8358;".$record['price']."</td>";
-    echo "<td>&#8358;".$record['old_price']."</td>";
-    echo "<td>".$record['availability']."</td>";
-    echo "<td>".$record['promo_status']."</td>";
-    echo "<td><a href=\"editProductImage?product_id=".$record['hash_id']."\"><div style=\"background:url('".$record['file_path']."'); height
-    :50px; width: 50px; background-size: cover; background-position: center; background-repeat: no-repeat;\"></div></a></td>";
-    echo "<td>".$record['flag']."</td>";
+    echo "<td>".$numb."</td>";
+    echo "<td>".$record['firstname']."</td>";
+    echo "<td>".$record['lastname']."</td>";
+    echo "<td>".$record['age']."</td>";
+    echo "<td>".$record['gender']."</td>";
+    getState($dbconn, $record['state']);
+    getLocal($dbconn, $record['town']);
+    echo "<td>".$record['phone_number']."</td>";
+    echo "<td>".$record['inventory']."</td>";
 
-    echo "<td><a href=\"edit_products?product_id=".$record['hash_id']."\">edit</a></td>";
-    echo "<td><a href=\"deleteProducts?product_id=".$record['hash_id']."\">delete</a></td>";
+    echo "<td>&#8358;".$record['price']."</td>";
+    echo "<td>".$record['availability']."</td>";
+    echo "<td>".$record['season']."</td>";
+    echo "<td>".$record['admin_id']."</td>";
+    echo "<td>".$record['unique_id']."</td>";
+    echo "<td>".$record['guarantor_name']."</td>";
+    echo "<td>".$record['guarantor_number']."</td>";
+    echo "<td><a href=\"editfarmersImage?unique_id=".$record['unique_id']."\"><div style=\"background:url('".$record['file_path']."'); height
+    :50px; width: 50px; background-size: cover; background-position: center; background-repeat: no-repeat;\"></div></a></td>";
+    echo "<td><a href=\"edit_farmers?unique_id=".$record['unique_id']."\">edit</a></td>";
+    echo "<td><a href=\"deletefarmers?unique_id=".$record['unique_id']."\">delete</a></td>";
     echo "</tr>";
   }
 }
@@ -277,12 +295,12 @@ function viewCategories($dbconn){
 }
 
 
-function viewCategory($dbconn){
-  $stmt = $dbconn->prepare("SELECT * FROM category");
+function viewStates($dbconn){
+  $stmt = $dbconn->prepare("SELECT * FROM states");
   $stmt->execute();
   while($record = $stmt->fetch()){
     extract($record);
-    echo "<option value=\" $category_id\">$category_name</option>";
+    echo "<option value=\" $state_id\">$name</option>";
   }
 }
 
@@ -409,13 +427,13 @@ function deleteSubCategory($dbconn, $get){
 
 
 
-function deleteProduct($dbconn, $get){
-  $id = getIdByHashId($dbconn,'product_id','product_id','product',$get['product_id']);
-  $stmt= $dbconn->prepare("DELETE FROM product WHERE product_id=:id");
+function deletefarmers($dbconn, $uid){
+ 
+  $stmt= $dbconn->prepare("DELETE FROM farmers WHERE unique_id=:uid");
 
-  $stmt -> bindParam(":id", $id);
+  $stmt -> bindParam(":uid", $uid);
   $stmt->execute();
-  header("Location: /products");
+  header("Location: /farmers");
 }
 
 
@@ -470,44 +488,48 @@ function getIdByHashId($dbconn,$id_name,$id,$table,$hash_id){
 }
 
 
-function addProducts($dbconn,$post,$destination){
+function addFarmers($dbconn,$post,$destination,$adminId){
 
   $rnd = rand(000000000000,99999999999);
-  $hash_id = 'product'.$rnd;
-  $stmt = $dbconn->prepare("INSERT INTO product VALUES(NULL,:pname,:maker,:descr,:cat,:subcat,:finalcat,:av,:prost,:pr,:opr, :hid, :dest,:flg,:inv)");
+  $hash_id = $post['fname'].$rnd;
+  $stmt = $dbconn->prepare("INSERT INTO farmers (firstname, lastname, age, gender, state, file_path, phone_number, inventory, price, town, guarantor_name, guarantor_number, season, availability, admin_id, unique_id, date_added)
+   VALUES(:pname,:last,:ag,:gen,:stat,:dest,:phn,:inv,:pr,:lg, :gname,:gnumb,:season,:avl,:admin,:uid,NOW())");
 
 
   $data = [
-    ':pname' => $post['product_name'],
-    ':maker' => $post['maker'],
-    ':descr' => $post['description'],
-    ':cat' => $post['category'],
-    ':subcat' => $post['sub_category'],
-    ':finalcat' => $post['final_category'],
-    ':av' => $post['availability'],
-    ':prost' => $post['promo_status'],
-    ':pr' => $post['price'],
-    ':opr' => $post['old_price'],
-    ':hid' => $hash_id,
+    ':pname' => $post['fname'],
+    ':last' => $post['lname'],
+    ':ag' => $post['age'],
+    ':gen' => $post['gender'],
+    ':stat' => $post['state'],
     ':dest' => $destination,
-    ':flg' => $post['flag'],
+    ':phn' => $post['phonenumber'],
     ':inv' => $post['inventory'],
+    ':pr' => $post['price'],
+    ':lg' => $post['lga'],
+    ':gname' => $post['guarantor'],
+    ':gnumb' => $post['guarantor_number'],
+    ':season' => $post['season'],
+    ':avl' => $post['availability'],
+    ':admin' => $adminId,
+    ':uid' => $hash_id,
+    
   ];
+ 
 
   $stmt->execute($data);
 
   $success = "Product Successfully Added";
   $succ = preg_replace('/\s+/', '_', $success);
 
-  header("Location:/add_products?success=$succ");
+  header("Location:/add_farmers?success=$succ");
 }
 
-function getProductById($dbconn,$get){
+function getFarmerById($dbconn,$id){
 
-  $id = getIdByHashId($dbconn,'product_id','product_id','product',$get['product_id']);
 
-  $stmt= $dbconn->prepare("SELECT * FROM product WHERE product_id = :cat");
-  $stmt->bindParam(":cat", $id);
+  $stmt= $dbconn->prepare("SELECT * FROM farmers WHERE unique_id = :uid");
+  $stmt->bindParam(":uid", $id);
   $stmt->execute();
   $cal = $stmt->fetch(PDO::FETCH_BOTH);
 
@@ -518,28 +540,32 @@ function getProductById($dbconn,$get){
 
 
 
-function editProducts($dbconn,$post,$get){
-  $id = getIdByHashId($dbconn,'product_id','product_id','product',$get['product_id']);
 
-  $stmt = $dbconn->prepare("UPDATE product SET product_name=:pname, maker=:maker, description=:descr,category=:cat,sub_category=:subcat, availability=:av, promo_status=:prost, price=:pr, old_price=:opr,  flag=:flg WHERE product_id =:id");
+function editFarmer($dbconn,$post,$uid){
+  
+
+  $stmt = $dbconn->prepare("UPDATE farmers SET firstname = :pname, lastname = :last, age = :ag, gender = :gen, state = :stat,  phone_number= :phn, inventory = :inv, price = :pr, town = :lg, guarantor_name = :gname, guarantor_number = :gnumb, season = :season, availability = :avl WHERE unique_id =:uid");
 
   $data = [
-    ':pname' => $post['product_name'],
-    ':maker' => $post['maker'],
-    ':descr' => $post['description'],
-    ':cat' => $post['category'],
-    ':subcat' => $post['sub_category'],
-    ':av' => $post['availability'],
-    ':prost' => $post['promo_status'],
+    ':pname' => $post['fname'],
+    ':last' => $post['lname'],
+    ':ag' => $post['age'],
+    ':gen' => $post['gender'],
+    ':stat' => $post['state'],
+    ':phn' => $post['phonenumber'],
+    ':inv' => $post['inventory'],
     ':pr' => $post['price'],
-    ':opr' => $post['old_price'],
-    ':flg' => $post['flag'],
-    ':id' => $id
+    ':lg' => $post['lga'],
+    ':gname' => $post['guarantor'],
+    ':gnumb' => $post['guarantor_number'],
+    ':season' => $post['season'],
+    ':avl' => $post['availability'],
+    ':uid' => $uid,
   ];
 
   $stmt->execute($data);
   $success = "Done";
-  header("Location: /products?success=$success");
+  header("Location:farmers?success=$success");
 }
 
 function doesUserEmailExist($dbconn, $input){ #placeholders are just there
@@ -554,14 +580,14 @@ function doesUserEmailExist($dbconn, $input){ #placeholders are just there
   }
   return $result;
 }
-function replaceImagePath($dbconn,$dest,$fp, $get){
+function replaceImagePath($dbconn,$dest,$fp, $uid){
   $old_image = $fp;
   // die($get['product_id']);
 
   try{
-    $stmt = $dbconn->prepare("UPDATE product SET file_path=:des WHERE hash_id =:id");
+    $stmt = $dbconn->prepare("UPDATE farmers SET file_path=:des WHERE unique_id =:uid");
     $data = [
-      ':id' => $get['product_id'],
+      ':uid' =>  $uid,
       ':des' => $dest
     ];
     $stmt->execute($data);
@@ -570,7 +596,7 @@ function replaceImagePath($dbconn,$dest,$fp, $get){
   }
   unlink($old_image);
   $success = "Done";
-  header("Location:/products?success=$success");
+  header("Location:/farmers?success=$success");
 }
 
 

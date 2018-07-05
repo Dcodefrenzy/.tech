@@ -1,7 +1,7 @@
 <?php
-    define("DBNAME", 'ecommerce');
+    define("DBNAME", 'tech4rice');
     define("DBUSER", 'root');
-    define("DBPASS", 'koda');
+    define("DBPASS", 'dre');
 
         try{
 
@@ -14,13 +14,15 @@
         }
 
 
-        $stmt = $lconn->prepare("SELECT * FROM sub_category WHERE category_id = :cat_id");
-        $stmt->bindParam(":cat_id", $_POST['cat_id']);
-        $stmt->execute();
-          echo  '<option value="">-Select Sub Category-</option>';
+        $stmt = $lconn->prepare("SELECT * FROM locals WHERE state_id = :state_id");
+        $stmt->bindParam(":state_id", $_POST['state_id']);
+                $stmt->execute();
+          echo  '<option value="">-Select LGA-</option>';
         while($row = $stmt->fetch(PDO::FETCH_BOTH)){
+          extract($row);
 
-          echo '<option value="'.$row['hash_id'].'">'.$row['sub_category_name'].'</option>';
+
+          echo "<option value=".$local_id.">".$local_name."'</option>";
 
         }
 

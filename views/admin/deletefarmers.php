@@ -8,28 +8,30 @@ $link= "#";
 
 include 'include/header2.php';
 
-if(!isset($_GET['product_id'])){
-  header("Location:products");
+if(isset($_GET['unique_id'])){
+	$id = $_GET['unique_id'];
 }
 
-$nm = getProductNameById($conn,$_GET);
+$nm = getfarmerById($conn,$id);
+extract($nm);
+ $fullname = $firstname." ".$lastname;
 
-if($nm == false){
-  header("Location:/products");
+if($fullname == false){
+  header("Location:/farmers");
 }
 
 if(isset($_POST['no'])){
-  header("Location:/products");
+  header("Location:/farmers");
 
 }
 
 if(isset($_POST['yes'])){
-  $id= $_GET['id'];
-  deleteProduct($conn, $_GET);
+  
+  deletefarmers($conn, $id);
 }
 
 ?>
-<h1 id= \"register_label\"> Are You Sure You want to delete <?php echo $nm ?>?</h1>
+<h1 id= \"register_label\"> Are You Sure You want to delete <?php echo $fullname." Profile" ?></h1>
 
 <form id="register"  action="" method="post">
   <input type="submit" name="yes" value="Yes">

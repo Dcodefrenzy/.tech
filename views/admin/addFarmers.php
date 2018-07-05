@@ -4,14 +4,15 @@ session_start();
 authenticate();
 $_SESSION['active'] = true;
 #Links to the header2.php
-$page_title = "Add Products";
-$link= "add_products";
+$page_title = "Add Farmers";
+$link= "add_farmers";
 
 include 'include/header2.php';
+$admin_id = $_SESSION['admin_id'] ;
 
-$flag = array("none", "top-selling", "popular-demand","new-offers");
+$season = array("none", "Pre-planting", "planting","harvesting");
 $availability = array("1" =>"Available", "2" =>"Not Available");
-$promo = array("1" =>"On Promo", "2" =>"No Promo");
+
 $error = [];
 
 if(array_key_exists('add', $_POST)){
@@ -20,57 +21,66 @@ if(array_key_exists('add', $_POST)){
 
   $ext = ["image/jpg", "image/JPG", "image/jpeg", "image/JPEG", "image/PNG", "image/png"];
 
-  if(empty($_POST['product_name'])){
-    $error['product_name'] = "Please enter Product name";
+  if(empty($_POST['fname'])){
+    $error['fname'] = "Please enter your first name";
   }
 
-  if(empty($_POST['maker'])){
-    $error['maker'] = "Please enter Producer";
+    if(empty($_POST['lname'])){
+    $error['lname'] = "Please enter your last name";
   }
 
-  if(empty($_POST['category'])){
-    $error['category'] = "Please enter Category";
+  if(empty($_POST['age'])){
+    $error['age'] = "Please enter your age";
   }
 
-  if(empty($_POST['sub_category'])){
-    $error['sub_category'] = "Please enter Sub-Category";
+   if(empty($_POST['gender'])){
+    $error['gender'] = "Please enter your gender";
   }
 
-  if(empty($_POST['final_category'])){
-    $error['final_category'] = "Please enter final-Category";
+   if(empty($_POST['state'])){
+    $error['state'] = "Please choose your state";
   }
 
-  if(empty($_POST['description'])){
-    $error['description'] = "Please enter Description";
+    if(empty($_POST['lga'])){
+    $error['lga'] = "Please choose your local government";
   }
 
   if(empty($_POST['price'])){
     $error['price'] = "Please enter Price";
   }
 
-  if(empty($_POST['old_price'])){
-    $error['old_price'] = "Please enter Previous Price";
+  if(empty($_POST['inventory'])){
+    $error['inventory'] = "Please enter your product quantity";
+  }
+
+  if (empty($_POST['phonenumber'])){
+    $error['phonenumber'] = "please enter your phone number";
+  }
+
+  if (!is_numeric($_POST['phonenumber'])){
+    $error['phonenumber'] = "Please enter a numeric value";
+  }
+
+  if (empty($_POST['guarantor'])){
+    $error['guarantor'] = "please enter a guarantor's name";
+  }
+
+  if (empty($_POST['guarantor_number'])){
+    $error['guarantor_number'] = "please enter a guarantor's phone number";
+  }
+
+  if (!is_numeric($_POST['guarantor_number'])) {
+    $error['guarantor_number'] = "Please enter a numeric value for your guarantor";
   }
 
   if (empty($_POST['availability'])){
     $error['availability'] = "please enter Product Availability";
   }
 
-  if(empty($_POST['promo_status'])){
-    $error['promo_status'] = "Please enter Promo Status";
+   if (empty($_POST['season'])){
+    $error['season'] = "please enter Product season";
   }
 
-  if(empty($_POST['old_price'])){
-    $error['old_price'] = "please enter old_price";
-  }
-
-  if(empty($_POST['flag'])){
-    $error['flag'] = "please enter flag";
-  }
-  
-  if(empty($_POST['inventory'])){
-    $error['inventory'] = "please enter inventory";
-  }
 
   if(empty($_FILES['pic']['name'])){
     $error['pic'] = "please choose a file";
@@ -85,10 +95,10 @@ if(array_key_exists('add', $_POST)){
   }
 
   if(empty($error)){
-    $ver = compressImage($_FILES, 'pic',80, 'uploads/');
+    $location = compressImage($_FILES, 'pic',80, 'uploads/');
   $clean = array_map('trim', $_POST);
 // var_dump($clean);
-  addProducts($conn,$clean,$ver);
+  addFarmers($conn,$clean,$location,$admin_id);
 }
 }
  ?>
@@ -135,25 +145,33 @@ if(array_key_exists('add', $_POST)){
  <input type="text" name="gender" value="" placeholder="Gender">
 </div>
 
+
 <div class="">
-  <?php  $display = displayErrors($error, 'gender');
+  <?php  $display = displayErrors($error, 'state');
    echo $display; ?>
-<label for="">State </label>
- <input type="text" name="gender" value="" placeholder="Gender">
+  <label for="">State</label>
+  <select onchange="getSub(this.value)" class="" name="state">
+  <option value="">-Select State-</option>
+  <?php viewStates($conn) ?>
+ </select>
 </div>
 
 <div class="">
-  <?php  $display = displayErrors($error, 'gender');
+  <?php  $display = displayErrors($error, 'lga');
    echo $display; ?>
-<label for="">LGA </label>
- <input type="text" name="gender" value="" placeholder="Gender">
+  <label for="">Local Government</label>
+  <select id ="sub" onchange="getSubCat(this.value)" class="" name="lga">
+  <option value="">-Select LGA-</option>
+  </select>
 </div>
+
+
 
 <div class="">
   <?php  $display = displayErrors($error, 'phonenumber');
    echo $display; ?>
 <label for="">Phone Number </label>
- <input type="text" name="phonenumber" value="" placeholder="Phone Number">
+ <input type="number" name="phonenumber" value="" placeholder="Phone Number">
 </div>
 
 <div class="">
@@ -167,26 +185,54 @@ if(array_key_exists('add', $_POST)){
   <?php  $display = displayErrors($error, 'price');
    echo $display; ?>
 <label for="">Price </label>
- <input type="text" name="price" value="" placeholder="Price">
+ <input type="number" name="price" value="" placeholder="Price">
 </div>
 
 <div class="">
-  <?php  $display = displayErrors($error, "gurantor");
+  <?php  $display = displayErrors($error, "guarantor");
    echo $display; ?>
 <label for="">GURANTOR NAME </label>
- <input type="text" name="gurantor" value="" placeholder="GURANTOR NAME">
+ <input type="text" name="guarantor" value="" placeholder="GURANTOR NAME">
 </div>
 
 <div class="">
-  <?php  $display = displayErrors($error, "gurantor_number");
+  <?php  $display = displayErrors($error, "guarantor_number");
    echo $display; ?>
 <label for="">GURANTOR NUMBER </label>
- <input type="text" name="gurantor_number" value="" placeholder="GURANTOR NUMBER">
+ <input type="number" name="guarantor_number" value="" placeholder="GURANTOR NUMBER">
+</div>
+
+<div class="">
+  <?php  $display = displayErrors($error, 'availability');
+   echo $display; ?>
+  <label for="">AVAILABILTY</label>
+  <select class="" name="availability">
+    <option value="">-Select Availability-</option>
+    <?php foreach($availability as $num => $status){?>
+    <option value="<?php echo $num  ?>">
+  <?php echo $status  ?>
+  </option>
+<?php  }?>
+  </select>
+</div>
+
+<div class="">
+  <?php  $display = displayErrors($error, 'season');
+   echo $display; ?>
+  <label for="">SEASON</label>
+  <select class="" name="season">
+    <option value="">-Select Season-</option>
+    <?php foreach($season as $ff){?>
+    <option value="<?php echo $ff  ?>">
+  <?php echo $ff  ?>
+  </option>
+<?php  }?>
+  </select>
 </div>
 
 
 
-<input type="submit" name="add" value="Add Product">
+<input type="submit" name="add" value="Add Farmer">
 </form>
 
 
@@ -197,10 +243,10 @@ if(array_key_exists('add', $_POST)){
 <script type="text/javascript">
 function getSub(id){
 
-  var url = 'getSubCategory';
+  var url = 'getLocal';
   var method = 'POST';
-  var params = 'cat_id='+ id;
-  ////console.log(url);
+  var params = 'state_id=' + id;
+ /* console.log(params);*/
   subAjax(url, method, params);
 }
 
@@ -209,6 +255,7 @@ function subAjax(url, method, params){
   xhr.onreadystatechange = function(){
     if(xhr.readyState == 4){
       var res = xhr.responseText;
+      console.log(res);
       document.getElementById('sub').innerHTML = res ;
     }
   }
@@ -217,7 +264,7 @@ function subAjax(url, method, params){
   xhr.send(params);
 }
   //for getting final category
-function getSubCat(id){
+/*function getSubCat(id){
 
 
   var url = 'finalCategory';
@@ -240,6 +287,6 @@ function getFinalCat(url, method, params){
   xhr.open(method, url, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send(params);
-}
+}*/
 </script>
 <?php include 'include/footer.php'; ?>
