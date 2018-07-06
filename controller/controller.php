@@ -205,8 +205,10 @@ function viewFarmers($dbconn){
   $stmt = $dbconn->prepare("SELECT * FROM farmers");
   $stmt->execute();
   while($record = $stmt->fetch()){
-    count($record);
-  
+    $row = Count($record);
+    for ($i=1; $i < $row; $i++) { 
+       $numb = $i;
+     }
     
     if($record['availability'] == 1){
       $record['availability'] = "Available";
@@ -217,10 +219,9 @@ function viewFarmers($dbconn){
 
 
     echo "<tr>";
-      for ($i=1; $i < $record; $i++) { 
-       $numb = $i;
+      
       echo "<td>".$numb."</td>";
-  }
+  
     echo "<td>".$record['firstname']."</td>";
     echo "<td>".$record['lastname']."</td>";
     echo "<td>".$record['age']."</td>";
