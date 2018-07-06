@@ -7,22 +7,23 @@ include "includes/header.php";
 $show = showAllfarmersHome($conn,  $record_per_page);
 
  ?>
+
 <div class="slider">
 	  <div class="callbacks_container">
 	      <ul class="rslides" id="slider">
-	        <li><img src="images/banner1.jpg" class="img-responsive" alt=""/>
+	        <li><img src="images/tech.jpg" class="img-responsive" alt=""/>
 	        <div class="banner_desc">
 				<h1>We Provide Worlds top fashion for less fashionpress.</h1>
 				<h2>FashionPress the name of the of hi class fashion Web FreePsd.</h2>
 			</div>
 	        </li>
-	        <li><img src="images/banner2.jpg" class="img-responsive" alt=""/>
+	        <li><img src="images/women-farmers.jpg" class="img-responsive" alt=""/>
 	         <div class="banner_desc">
 				<h1>Duis autem vel eum iriure dolor in hendrerit.</h1>
 				<h2>Claritas est etiam processus dynamicus, qui sequitur .</h2>
 			 </div>
 	        </li>
-	        <li><img src="images/banner3.jpg" class="img-responsive" alt=""/>
+	        <li><img src="images/rice-grain.jpg" class="img-responsive" alt=""/>
 	          <div class="banner_desc">
 				<h1>Ut wisi enim ad minim veniam, quis nostrud.</h1>
 				<h2>Mirum est notare quam littera gothica, quam nunc putamus.</h2>
@@ -31,6 +32,23 @@ $show = showAllfarmersHome($conn,  $record_per_page);
 	      </ul>
 	  </div>
 </div>
+
+​<div  id="overlay" onclick="off()">
+<div align="center" class="card" style="width: 50%; ;  position: fixed; top: 20%; right:30%; left:25%; bottom: 30%; ">
+	  <div class="card-img-top" style="background:url(images/tech.jpg); height:100%; width: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;" class="">
+  			</div>
+<!--   <img class="card-img-top" src="images/p1.jpg" alt="Card image cap"> -->
+  <ul class="list-group list-group-flush" >
+    <p class="list-group-item">Its Important for you to have an account with us but if you already have one then login</p>
+  
+ 
+    <p class="list-group-item"><a href="register" class="card-link"><button type="button" class="btn btn-danger btn-lg">Register</button></a>
+    <a href="login" class="card-link"><button type="button" class="btn btn-danger btn-lg">Login</button></a></p>
+  
+</ul>
+</div>
+</div>
+
 <div class="column_center">
   <div class="container">
 	<div class="search">
@@ -66,15 +84,13 @@ $show = showAllfarmersHome($conn,  $record_per_page);
 	   <div class="col-md-3 sidebar_box">
 	   	 <div class="sidebar">
 			<div class="menu_box">
-		    <h3 class="menu_head">Products Menu</h3>
+		    <h3 class="menu_head">Search Menu</h3>
 			  <ul class="menu">
-				<li class="item1" "><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/> Season</a>
+					<li class="item1" ><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/> Season</a>
 					<ul class="cute">
-					<li class="subitem1" ><a href="#"><input class="subitem1" type="submit" value="Pre-Planting" size="20px" name="Pre-Planting"></a></li>
-					<li class="subitem1" ><a href="#"><input class="subitem1" type="submit" value="Planting" size="20px" name="Planting"></a></li>
-					<li class="subitem1" ><a href="#"><input class="subitem1" type="submit" value="Pre-Planting" size="20px" name="Pre-Planting"></a></li>
-						<li class="subitem1" ><a href="#">Planting</a></li>
-						<li class="subitem1" ><a href="#">Harvesting</a></li>
+					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)" class="subitem1" type="submit" value="Pre-Planting" size="20px" name="Pre-Planting"></a></li>
+					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="Planting" size="20px" name="Planting"></a></li>
+					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="harvesting" size="20px" name="harvesting"></a></li>
 					</ul>
 				</li>
 				<li class="item2"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Women</a>
@@ -113,7 +129,8 @@ $show = showAllfarmersHome($conn,  $record_per_page);
 			    });
 			
 			});
-
+			 
+						//fetching states and states id.
 					function getSub(id){
 
   						var url = 'getLocal';
@@ -162,23 +179,41 @@ $show = showAllfarmersHome($conn,  $record_per_page);
   			//To fetch Season.
   			function getSeason(name){
   				var url = 'season';
-  				var method = 'GET';
-  				var params = 'season' + name;
+  				var method = 'post';
+  				var params = 'season=' + name;
   				console.log(params);
+  				console.log(url);
+  				console.log(method);
+  				console.log(getFarmerSeason);
   				getFarmerSeason(url, method, params);
   			}
   			function getFarmerSeason(url, method, params){
   				var xhr = new XMLHttpRequest();
   				xhr.onreadystatechange = () =>{
-  					if(xhr.readyState === 4){
+  					if(xhr.readyState == 4){
   						var res = xhr.responseText;
-  						document.getElementById('season').innerHTML = res;
+  						console.log(res);
+  						document.getElementById('display').innerHTML = res;
   					}
   				}
   				xhr.open(method, url, true);
   				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   				xhr.send(params);
   			}
+  				//To display overlay for registration
+  				setTimeout(function(){
+			 	on();
+			 	console.log('Now');
+
+			 },10000);
+
+  			function on() {
+    		document.getElementById("overlay").style.display = "block";
+			}
+
+			function off() {
+    		document.getElementById("overlay").style.display = "none";
+			}
 		</script>
        </div>
 		    <div class="delivery">
@@ -214,11 +249,10 @@ $show = showAllfarmersHome($conn,  $record_per_page);
 			   	<div class="clearfix"> </div>
 			   </ul>
 			</div>
-	   </div> 
-	   <div class="col-md-9 content_right">
-	  		<h3 class="single_head">Farmers</h3>	
+	   </div> 	  			
 	
 	    		<div id="display">
+	    			<h3 class="single_head">Farmers</h3>
 	    		<?php while ($row = $show->fetch(PDO::FETCH_BOTH)) {
 					extract($row);
 					$state = getStateById($conn, $state);
