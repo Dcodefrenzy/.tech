@@ -122,7 +122,10 @@ switch ($uri[1]) {
   case "getLocal":
   include APP_PATH."/views/admin/ajax/subcategory.php";
   break;
-
+ 
+  case "search":
+  include APP_PATH."/views/users/ajax/finalCategory.php";
+  break;
 
 
   case "edit_farmers?unique_id=$unique_id":
