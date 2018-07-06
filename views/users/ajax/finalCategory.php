@@ -3,12 +3,14 @@
         $stmt = $conn->prepare("SELECT * FROM farmers WHERE town = :lid");
         $stmt->bindParam(":lid", $_POST['lid']);
         $stmt->execute();
+        /*echo '<h3 class="single_head">Location:'.$local.', '.$state.'</h3>';*/
         while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
 					extract($row);
 					$state = getStateById($conn, $state);
 					$local = getLocalById($conn, $town);
 		
-	echo	'<div class="related_products">
+	echo	'
+		<div class="related_products">
 	     <div class="col-md-3 top_grid1-box1 top_grid2-box2"><a href=profile?unique_id='.$unique_id.'> 
 	     	<div class="grid_2">
 	     	  <div class="b-link-stroke b-animate-go  thickbox">

@@ -52,9 +52,14 @@ if(array_key_exists('add', $_POST)){
   if(empty($_POST['inventory'])){
     $error['inventory'] = "Please enter your product quantity";
   }
-
+  if ($_POST['phonenumber'] != 11) {
+    $error['phonenumber'] = "Please input correct digits";
+  }
   if (empty($_POST['phonenumber'])){
     $error['phonenumber'] = "please enter your phone number";
+  }
+  if(doesNumberExist($conn, $_POST['phonenumber'])){
+    $error['phonenumber'] = "Phone number already exit";
   }
 
   if (!is_numeric($_POST['phonenumber'])){

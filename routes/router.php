@@ -127,6 +127,9 @@ switch ($uri[1]) {
   include APP_PATH."/views/users/ajax/finalCategory.php";
   break;
 
+   case "season":
+  include APP_PATH."/views/users/ajax/users_seasons.php";
+  break;
 
   case "edit_farmers?unique_id=$unique_id":
   include APP_PATH."/views/admin/editFarmers.php";
@@ -221,8 +224,8 @@ switch ($uri[1]) {
   include APP_PATH."/views/users/users_products.php";
   break;
 
-  case "product?page=$i":
-  include APP_PATH."/views/users/users_products.php";
+  case "farmers?page=$i":
+  include APP_PATH."/views/users/users_farmers.php";
   break;
 
   case "contact":

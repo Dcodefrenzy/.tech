@@ -5,6 +5,7 @@ if (isset($_GET['unique_id'])) {
 $record_limit = 1;
 
 $profile = showFarmersById($conn, $id);
+
 $state = getStateById($conn, $profile['state']);
 $local = getLocalById($conn, $profile['town']);
 $related = showRelatedFarmers($conn, $profile['town'], $record_limit);

@@ -12,16 +12,53 @@ include "includes/header.php";
 														
 	$start_from = ($page-1)*$record_per_page;
 
-
+if (isset($_POST['lga'])) {
+	#
+}else{
 $show = showAllfarmers($conn, $start_from, $record_per_page);
+$pargination = getPaginationForAllFarmers($conn,  $record_per_page);
+$total_record = getTotalRecord($conn,  $record_per_page);
+}
+
+
+
+
+ 			//Generating $preview and $next.
+		if($page > 1){
+ 			$prev = $page - 1;
+ 		}else{
+ 			$prev = 1;
+ 		}
+ 		if($total_record > 1 &&  $page != $total_record){
+ 			$next = $page + 1;
+ 		}
+ 		else{
+ 			$next = $total_record;
+ 		}
  ?>
 <div class="column_center">
   <div class="container">
 	<div class="search">
-	  <div class="stay">Search Product</div>
-	  <div class="stay_right">
-		  <input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
-		  <input type="submit" value="">
+
+	  <div class="stay_left" align="center">
+	  	<select onchange="getSub(this.value)" class="stay-right" name="state">
+  			<option value="">-Search By State-</option>
+  				<?php viewStatesForHome($conn) ?>
+			 </select>
+	  </div>
+	  <div class="clearfix"> </div>
+	</div>
+    <div class="clearfix"> </div>
+  </div>
+</div>
+<div class="column_center">
+  <div class="container">
+	<div class="search">
+	
+	  <div class="stay_left" align="center">
+  <select id ="sub" onchange="getSubCat(this.value)" class="stay-right" name="lga">
+  <option value="">-Select LGA-</option>
+  </select>
 	  </div>
 	  <div class="clearfix"> </div>
 	</div>
@@ -34,13 +71,13 @@ $show = showAllfarmers($conn, $start_from, $record_per_page);
 	   <div class="col-md-3 sidebar_box">
 	   	 <div class="sidebar">
 			<div class="menu_box">
-		    <h3 class="menu_head">Products Menu</h3>
+		    <h3 class="menu_head">Search Menu</h3>
 			  <ul class="menu">
-				<li class="item1"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/> Man</a>
+					<li class="item1" ><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/> Season</a>
 					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
+					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)" class="subitem1" type="submit" value="Pre-Planting" size="20px" name="Pre-Planting"></a></li>
+					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="Planting" size="20px" name="Planting"></a></li>
+					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="harvesting" size="20px" name="harvesting"></a></li>
 					</ul>
 				</li>
 				<li class="item2"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Women</a>
@@ -57,48 +94,7 @@ $show = showAllfarmers($conn, $start_from, $record_per_page);
 						<li class="subitem3"><a href="#">Automatic Fails</a></li>
 					</ul>
 				</li>
-				<li class="item4"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Kids</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item5"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Jeans</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item6"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Tshirt</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item7"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Top Fashion</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item8"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Summer Collection</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item9"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Special Offer</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
+		
 			</ul>
 		</div>
 				<!--initiate accordion-->
@@ -163,8 +159,9 @@ $show = showAllfarmers($conn, $start_from, $record_per_page);
 						 <div class="clearfix"></div>		
 				  </div> 
 
-		<h3 class="single_head">Farmers</h3>	
-	
+			
+		<div id="display">
+		<h3 class="single_head">Farmers</h3>
 	    <div class="related_products">
 	    	<?php while ($row = $show->fetch(PDO::FETCH_BOTH)) {
 					extract($row);
@@ -196,6 +193,7 @@ $show = showAllfarmers($conn, $start_from, $record_per_page);
 	   <?php  '</a>' ?></div>
 	 </div>
 	 <?php }; ?>
+	 </div>
 
 	     
 	
@@ -205,7 +203,90 @@ $show = showAllfarmers($conn, $start_from, $record_per_page);
       </div> 
 	</div>
 
+	<?php 	 echo   "<nav aria-label='Page navigation example'>
+  						<ul class='pagination'>
+    						<li class='page-item'>
+					<li><a href='farmers?page=".$prev."' aria-label='Previous'><span aria-hidden='true'>«</span></a></li>";
+            			echo $pargination;
+		 		 echo   "<li><a href='farmers?page=".$next."' aria-label='Next'><span aria-hidden='true'>»</span></a></li>
+		   			 </li>
+		   		</ul>
+			</nav>"; ?>
+
 </div>
+			<!--initiate accordion-->
+		<script type="text/javascript">
+
+					function getSub(id){
+
+  						var url = 'getLocal';
+  						var method = 'POST';
+  						var params = 'state_id=' + id;
+  						subAjax(url, method, params);
+					}
+
+					function subAjax(url, method, params){
+  					var xhr = new XMLHttpRequest();
+  					xhr.onreadystatechange = function(){
+    				if(xhr.readyState == 4){
+     					 var res = xhr.responseText;
+      						
+      					document.getElementById('sub').innerHTML = res ;
+   					 }
+ 				 }
+  					xhr.open(method, url, true);
+  					xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  					xhr.send(params);
+				}
+
+			function getSubCat(id){
+  				var url = 'search';
+  				console.log(url);
+  				var method ='POST';
+  				var params = 'lid=' + id;
+  				console.log(params);
+
+  				getFinalCat(url, method, params);
+				}
+
+				function getFinalCat(url, method, params){
+  				var xhr = new XMLHttpRequest();
+  				xhr.onreadystatechange = () =>{
+    				if(xhr.readyState == 4){
+      				var res = xhr.responseText;
+      				console.log(res)
+      				document.getElementById('display').innerHTML = res;
+    				}
+  				}
+  				xhr.open(method, url, true);
+  				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  				xhr.send(params);
+  			}
+  			//To fetch Season.
+  			function getSeason(name){
+  				var url = 'season';
+  				var method = 'post';
+  				var params = 'season=' + name;
+  				console.log(params);
+  				console.log(url);
+  				console.log(method);
+  				console.log(getFarmerSeason);
+  				getFarmerSeason(url, method, params);
+  			}
+  			function getFarmerSeason(url, method, params){
+  				var xhr = new XMLHttpRequest();
+  				xhr.onreadystatechange = () =>{
+  					if(xhr.readyState == 4){
+  						var res = xhr.responseText;
+  						console.log(res);
+  						document.getElementById('display').innerHTML = res;
+  					}
+  				}
+  				xhr.open(method, url, true);
+  				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  				xhr.send(params);
+  			}
+		</script>
 <?php 
 include "includes/footer.php";
 

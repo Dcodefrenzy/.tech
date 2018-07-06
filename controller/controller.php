@@ -3,10 +3,10 @@
 define("DB_PATH", dirname(dirname(__FILE__)));
 include DB_PATH."/model/db.php";
 
-function doesEmailExist($dbconn, $input){ #placeholders are just there
+function doesNumberExist($dbconn, $input){ #placeholders are just there
   $result = false;
-  $stmt = $dbconn -> prepare("SELECT * FROM admin WHERE email = :em");
-  $stmt->bindParam(":em",$input);
+  $stmt = $dbconn -> prepare("SELECT * FROM farmers WHERE phone_number = :numb");
+  $stmt->bindParam(":numb",$input);
   $stmt->execute();
   $count = $stmt->rowCount();
   if($count>0){
@@ -201,10 +201,13 @@ function getLocal($dbconn, $lgaId){
 
 
 function viewFarmers($dbconn){
-  $numb = 1;
+  
   $stmt = $dbconn->prepare("SELECT * FROM farmers");
   $stmt->execute();
   while($record = $stmt->fetch()){
+    count($record);
+  
+    
     if($record['availability'] == 1){
       $record['availability'] = "Available";
     }
@@ -214,7 +217,10 @@ function viewFarmers($dbconn){
 
 
     echo "<tr>";
-    echo "<td>".$numb."</td>";
+      for ($i=1; $i < $record; $i++) { 
+       $numb = $i;
+      echo "<td>".$numb."</td>";
+  }
     echo "<td>".$record['firstname']."</td>";
     echo "<td>".$record['lastname']."</td>";
     echo "<td>".$record['age']."</td>";
@@ -1105,11 +1111,11 @@ function showAllfarmersHome($dbconn, $record){
 
 }
 
-function getPaginationForAllProduct($dbconn,  $record){
+function getPaginationForAllFarmers($dbconn,  $record){
   $result = "";
   $prev = "1";
   $next = "1";
-  $stmt= $dbconn->prepare("SELECT * FROM product ORDER BY product_id DESC");
+  $stmt= $dbconn->prepare("SELECT * FROM farmers ORDER BY farmers_id DESC");
   $stmt->bindParam(':hid', $hid);
   $stmt->execute();
   $total_record=$stmt->rowCount();
@@ -1117,13 +1123,13 @@ function getPaginationForAllProduct($dbconn,  $record){
   $total_pages = ceil($total_record/$record);
   for ($i=1; $i <=$total_pages ; $i++) {
 
-    $result .= "<li class='active'><a href='product?page=".$i."'>".$i."</a></li>";
+    $result .= "<li class='active'><a href='farmers?page=".$i."'>".$i."</a></li>";
   }
   return $result;
 }
 
 function getTotalRecord($dbconn,  $record){
-  $stmt= $dbconn->prepare("SELECT * FROM product ORDER BY product_id DESC");
+  $stmt= $dbconn->prepare("SELECT * FROM farmers ORDER BY farmers_id DESC");
   $stmt->execute();
   $total_record=$stmt->rowCount();
 
