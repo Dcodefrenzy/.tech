@@ -303,7 +303,14 @@ function viewStates($dbconn){
     echo "<option value=\" $state_id\">$name</option>";
   }
 }
-
+ function viewStatesForHome($dbconn){
+  $stmt = $dbconn->prepare("SELECT * FROM states");
+  $stmt->execute();
+  while($record = $stmt->fetch()){
+    extract($record);
+    echo "<option value=\" $state_id\">$name</option>";
+  }
+ }
 
 function editCategory($dbconn, $post, $get){
   $id = getIdByHashId($dbconn,'category_id','category_id','category',$get['id']);
@@ -1042,31 +1049,60 @@ function fetchSideCategory($dbconn){
     }
   }
 }
-function showAllProducts($dbconn, $start, $record){
+
+function showRelatedFarmers($dbconn, $lid){
+    $result = " ";
+  $stmt = $dbconn->prepare("SELECT * FROM farmers WHERE town = :lid");
+  $stmt->bindParam(':lid', $lid);
+  $stmt -> execute();
+  return $stmt;
+
+}
+
+function showFarmersById($dbconn, $uid){
   $result = " ";
-  $stmt = $dbconn->prepare("SELECT * FROM product ORDER BY product_id DESC LIMIT $start, $record");
+  $stmt = $dbconn->prepare("SELECT * FROM farmers WHERE unique_id = :uid");
+  $stmt->bindParam(':uid', $uid);
+  $stmt -> execute();
+  $row = $stmt->fetch(PDO::FETCH_BOTH);
+  return $row;
+}
+
+function getStateById($dbconn, $stateId){
+  $stmt= $dbconn->prepare("SELECT * FROM states WHERE state_id = :sid");
+  $stmt->bindParam(':sid', $stateId);
+  $stmt->execute();
+  while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
+    extract($row);
+    return $name;
+  }
+}
+
+function getLocalById($dbconn, $lga){
+   $stmt= $dbconn->prepare("SELECT * FROM locals WHERE local_id = :lid");
+  $stmt->bindParam(':lid', $lga);
+  $stmt->execute();
+  while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
+    extract($row);
+    return $local_name;
+  }
+}
+
+function showAllfarmers($dbconn, $start, $record){
+  $result = " ";
+  $stmt = $dbconn->prepare("SELECT * FROM farmers ORDER BY farmers_id DESC LIMIT $start, $record");
 
   $stmt -> execute();
- while($row = $stmt->fetch(PDO::FETCH_BOTH)){
-    extract($row);
-      if ($inventory == 0) {
-      $inventory= "<h4 style=color:red;>Out Of Stock!</h4>";
-    }
-     $result .=  "<div class='col-md-4 product-left p-left'>
-                  <div class='product-main simpleCart_shelfItem'>
-                  <a href='preview?hid=".$hash_id."' class='mask'><img class='img-responsive zoom-img' src=".$file_path." alt=".$product_name." /></a>
-                  <div class='product-bottom'>
-                  <h3>".$product_name."</h3>
-                  <p><b>Stock- ".$inventory."</b></p>
-                  <h4><a class='item_add' href='preview?hid=".$hash_id."'><i></i></a> <span class=' item_price'>".$price."</span></h4>
-                </div>
-                <div class='srch srch1'>
-                  <span>-50%</span>
-                </div>
-              </div>
-            </div>";
-  }
-  return $result;
+  return $stmt;
+}
+
+function showAllfarmersHome($dbconn, $record){
+    $result = " ";
+  $stmt = $dbconn->prepare("SELECT * FROM farmers ORDER BY farmers_id DESC LIMIT  $record");
+
+  $stmt -> execute();
+  return $stmt;
+
 }
 
 function getPaginationForAllProduct($dbconn,  $record){

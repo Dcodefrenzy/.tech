@@ -2,6 +2,9 @@
 ob_start();
 $page_title = "Home";
 include "includes/header.php"; 
+	$record_per_page = 15;
+
+$show = showAllfarmersHome($conn,  $record_per_page);
 
  ?>
 <div class="slider">
@@ -31,10 +34,26 @@ include "includes/header.php";
 <div class="column_center">
   <div class="container">
 	<div class="search">
-	  <div class="stay">Search Product</div>
-	  <div class="stay_right">
-		  <input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
-		  <input type="submit" value="">
+
+	  <div class="stay_left" align="center">
+	  	<select onchange="getSub(this.value)" class="stay-right" name="state">
+  			<option value="">-Search By State-</option>
+  				<?php viewStatesForHome($conn) ?>
+			 </select>
+	  </div>
+	  <div class="clearfix"> </div>
+	</div>
+    <div class="clearfix"> </div>
+  </div>
+</div>
+<div class="column_center">
+  <div class="container">
+	<div class="search">
+	
+	  <div class="stay_left" align="center">
+  <select id ="sub" onchange="getSubCat(this.value)" class="stay-right" name="lga">
+  <option value="">-Select LGA-</option>
+  </select>
 	  </div>
 	  <div class="clearfix"> </div>
 	</div>
@@ -49,11 +68,13 @@ include "includes/header.php";
 			<div class="menu_box">
 		    <h3 class="menu_head">Products Menu</h3>
 			  <ul class="menu">
-				<li class="item1"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/> Man</a>
+				<li class="item1" "><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/> Season</a>
 					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
+					<li class="subitem1" ><a href="#"><input class="subitem1" type="submit" value="Pre-Planting" size="20px" name="Pre-Planting"></a></li>
+					<li class="subitem1" ><a href="#"><input class="subitem1" type="submit" value="Planting" size="20px" name="Planting"></a></li>
+					<li class="subitem1" ><a href="#"><input class="subitem1" type="submit" value="Pre-Planting" size="20px" name="Pre-Planting"></a></li>
+						<li class="subitem1" ><a href="#">Planting</a></li>
+						<li class="subitem1" ><a href="#">Harvesting</a></li>
 					</ul>
 				</li>
 				<li class="item2"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Women</a>
@@ -70,48 +91,7 @@ include "includes/header.php";
 						<li class="subitem3"><a href="#">Automatic Fails</a></li>
 					</ul>
 				</li>
-				<li class="item4"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Kids</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item5"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Jeans</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item6"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Tshirt</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item7"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Top Fashion</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item8"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Summer Collection</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item9"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Special Offer</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
+		
 			</ul>
 		</div>
 				<!--initiate accordion-->
@@ -133,11 +113,78 @@ include "includes/header.php";
 			    });
 			
 			});
+
+					function getSub(id){
+
+  						var url = 'getLocal';
+  						var method = 'POST';
+  						var params = 'state_id=' + id;
+  						subAjax(url, method, params);
+					}
+
+					function subAjax(url, method, params){
+  					var xhr = new XMLHttpRequest();
+  					xhr.onreadystatechange = function(){
+    				if(xhr.readyState == 4){
+     					 var res = xhr.responseText;
+      						
+      					document.getElementById('sub').innerHTML = res ;
+   					 }
+ 				 }
+  					xhr.open(method, url, true);
+  					xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  					xhr.send(params);
+				}
+
+			function getSubCat(id){
+  				var url = 'search';
+  				console.log(url);
+  				var method ='POST';
+  				var params = 'lid=' + id;
+  				console.log(params);
+
+  				getFinalCat(url, method, params);
+				}
+
+				function getFinalCat(url, method, params){
+  				var xhr = new XMLHttpRequest();
+  				xhr.onreadystatechange = () =>{
+    				if(xhr.readyState == 4){
+      				var res = xhr.responseText;
+      				console.log(res)
+      				document.getElementById('display').innerHTML = res;
+    				}
+  				}
+  				xhr.open(method, url, true);
+  				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  				xhr.send(params);
+  			}
+  			//To fetch Season.
+  			function getSeason(name){
+  				var url = 'season';
+  				var method = 'GET';
+  				var params = 'season' + name;
+  				console.log(params);
+  				getFarmerSeason(url, method, params);
+  			}
+  			function getFarmerSeason(url, method, params){
+  				var xhr = new XMLHttpRequest();
+  				xhr.onreadystatechange = () =>{
+  					if(xhr.readyState === 4){
+  						var res = xhr.responseText;
+  						document.getElementById('season').innerHTML = res;
+  					}
+  				}
+  				xhr.open(method, url, true);
+  				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  				xhr.send(params);
+  			}
 		</script>
        </div>
 		    <div class="delivery">
 				<img src="images/delivery.jpg" class="img-responsive" alt=""/>
-				<h3>Delivering</h3>
+				<h4>Over 3 Million</h4>
+				<h3>Farmers</h3>
 				<h4>World Wide</h4>
 			</div>
 			<div class="twitter">
@@ -169,219 +216,49 @@ include "includes/header.php";
 			</div>
 	   </div> 
 	   <div class="col-md-9 content_right">
-	   	<div class="top_grid1">
-	     <div class="col-md-4 box_2">
-	     	<div class="grid_1"><a href="profile">
-	     		<div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p1.jpg" class="img-responsive" alt=""/></div>
-	     	   <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	   </div>
-	     	</div>
-	     </a></div>
-	     <div class="col-md-8 box_1"><a href="profile">
-	       <div class="grid_1">
+	  		<h3 class="single_head">Farmers</h3>	
+	
+	    		<div id="display">
+	    		<?php while ($row = $show->fetch(PDO::FETCH_BOTH)) {
+					extract($row);
+					$state = getStateById($conn, $state);
+					$local = getLocalById($conn, $town);
+				 ?>
+		<div class="related_products">
+	     <div class="col-md-3 top_grid1-box1 top_grid2-box2"><?php echo '<a href=profile?unique_id='.$unique_id.'>' ?>
+	     	<div class="grid_2">
 	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p2.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
+		         <div style="background:url('<?php echo $file_path?>'); height:200px; width: 200px; background-size: cover; background-position: center; background-repeat: no-repeat;" class="">
+  			</div>
+  			 </div>
+	     	  <div class="grid_2" >
+	     	  	<p><?php echo $firstname." ".$lastname; ?></p>
+	     	  	<p><?php echo "Location: <br>".$local ?></p> 
+	     	  	<p><?php echo $state; ?></p>
 	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
+	     	  		<li class="grid_-1-left"></li>
+	     	  		<li class="grid_1-left"><p><?php echo $inventory." tons"; ?></p></li>
+	     	  		<li class="grid_-1-left"><p><?php echo "Season: <br>".$season; ?></p></li>
+	     	  		<li class="grid_1-right"> <?php echo '<a href=profile?unique_id='.$unique_id.' title="Get It" class="btn btn-primary btn-normal btn-inline "" target="_self">Connect</a>' ?></li>	
 	     	  	</ul>
+	     	  	<div class="clearfix"> </div>
 	     	  </div>
 	     	</div>
-	     </a></div>
-	     <div class="clearfix"> </div>
+	     	
+
+	   <?php  '</a>' ?></div>
+	 </div>
+	 <?php }; ?>
+	 </div>
+	     <div class="col-md-4 top_grid1-box1"></div>
 	    </div> 
-	    <div class="top_grid2">
-	      <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p3.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	     <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p4.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	     <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p5.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	    </a> </div>
-	     <div class="clearfix"> </div>
-	    </div> 
-	    <div class="top_grid2">
-	     <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	 <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p6.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	    <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p7.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	     <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p8.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	     <div class="clearfix"> </div>
-	    </div> 
-	    <h4 class="head"><span class="m_2">Popular</span> Products Now</h4>
-	    <div class="top_grid2">
-	     <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p9.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	    </a> </div>
-	    <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	 <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p10.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	     <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p11.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	     <div class="clearfix"> </div>
-	    </div> 
-	    <div class="top_grid2">
-	     <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p12.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	    <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p13.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	     <div class="col-md-4 top_grid1-box1"><a href="profile">
-	     	<div class="grid_1">
-	     	  <div class="b-link-stroke b-animate-go  thickbox">
-		        <img src="images/p14.jpg" class="img-responsive" alt=""/> </div>
-	     	  <div class="grid_2">
-	     	  	<p>There are many variations of passages</p>
-	     	  	<ul class="grid_2-bottom">
-	     	  		<li class="grid_2-left"><p>$99<small>.33</small></p></li>
-	     	  		<li class="grid_2-right"><div class="btn btn-primary btn-normal btn-inline " target="_self" title="Get It">Get It</div></li>
-	     	  		<div class="clearfix"> </div>
-	     	  	</ul>
-	     	  </div>
-	     	</div>
-	     </a></div>
-	     <div class="clearfix"> </div>
-	    </div> 
-       </div>
+        </div>
+      </div> 
+	</div>
+
+</div>
+	     
+	    
 	  </div>  	    
 	</div>
 </div>
