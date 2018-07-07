@@ -1,7 +1,9 @@
 <?php 
 ob_start();
 $page_title = "Home";
-include "includes/header.php"; 
+include "includes/header.php";
+
+
 	$record_per_page = 15;
 
 $show = showAllfarmersHome($conn,  $record_per_page);
@@ -33,6 +35,8 @@ $show = showAllfarmersHome($conn,  $record_per_page);
 	  </div>
 </div>
 
+		<?php if(isset($_SESSION['id']) && isset($_SESSION['username'])){ ?>
+		<?php }else{ ?>
 ​<div  id="overlay" onclick="off()">
 <div align="center" class="card" style="width: 50%; ;  position: fixed; top: 20%; right:30%; left:25%; bottom: 30%; ">
 	  <div class="card-img-top" style="background:url(images/tech.jpg); height:100%; width: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;" class="">
@@ -42,12 +46,13 @@ $show = showAllfarmersHome($conn,  $record_per_page);
     <p class="list-group-item">Its Important for you to have an account with us but if you already have one then login</p>
   
  
-    <p class="list-group-item"><a href="register" class="card-link"><button type="button" class="btn btn-danger btn-lg">Register</button></a>
-    <a href="login" class="card-link"><button type="button" class="btn btn-danger btn-lg">Login</button></a></p>
+    <p class="list-group-item"><a href="register" class="card-link"><button type="button" class="btn btn-success">Register</button></a>
+    <a href="login" class="card-link"><button type="button" class="btn btn-success">Login</button></a></p>
   
 </ul>
 </div>
 </div>
+<?php } ?>
 
 <div class="column_center">
   <div class="container">

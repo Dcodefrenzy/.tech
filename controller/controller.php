@@ -615,32 +615,37 @@ function replaceImagePath($dbconn,$dest,$fp, $uid){
 
 
 
-function doUserRegister($dbconn, $input, $sid){
+function doUserRegister($dbconn, $input){
   try{
     $hash = password_hash($input['hash'], PASSWORD_BCRYPT);
     $rand = rand(0000000000,111111111);
     $emailtop = explode("@",$input['email']);
     $hash_id = $emailtop[0].$rand.$emailtop[1];
+     /* die(var_dump($hash));*/
 
-    $stmt =$dbconn->prepare("INSERT INTO users(firstname,lastname,email,phone_number,username,hash, hash_id) VALUES(:fname, :lname, :em, :pm, :uname, :h, :hid)");
 
-    $stmt->bindParam(":fname", $input['fname']);
-    $stmt->bindParam(":lname", $input['lname']);
-    $stmt->bindParam(":em", $input['email']);
-    $stmt->bindParam(":pm", $input['pnumber']);
-    $stmt->bindParam(":uname", $input['uname']);
+
+    $stmt =$dbconn->prepare("INSERT INTO users(company,email,hash,state,town,address,phone_number,hash_id) VALUES(:name, :email, :h, :st, :local, :add, :pm, :hid)");
+
+    $stmt->bindParam(":name", $input['cname']);
+    $stmt->bindParam(":email", $input['email']);
     $stmt->bindParam(":h", $hash);
+    $stmt->bindParam(":st", $input['state']);
+    $stmt->bindParam(":local", $input['lga']);
+    $stmt->bindParam(":add", $input['address']);
+    $stmt->bindParam(":pm", $input['phonenumber']);
     $stmt->bindParam(":hid", $hash_id);
     $stmt->execute();
-    userLogin($dbconn,$sid,$input);
+
+    userLogin($dbconn,$input);
   }catch(PDOException $e){
     die("Oops");
   }
-
+     header("Location:/home");
 }
 
 
-function userLogin($dbconn, $sid,$input){
+function userLogin($dbconn, $input){
   try{
 
     $stmt = $dbconn->prepare("SELECT * FROM users WHERE email = :e ");
@@ -653,10 +658,10 @@ function userLogin($dbconn, $sid,$input){
 
       extract($row);
       
-      $_SESSION['username'] = $username;
+      $_SESSION['username'] = $company;
       $_SESSION['id'] = $hash_id;
 
-      updateCart($dbconn, $sid, $hash_id);
+  
       header("Location:/home");
     }else{
       $mes = "Invalid Email or Password";
