@@ -1,3 +1,20 @@
+<?php 
+
+$welcome = "";
+session_start();
+$sid = md5(session_id());
+$cart_numb = 0;
+if(isset($_SESSION['username']) && ($_SESSION['id'])){
+ 	$fullname = $_SESSION['username'];
+ 	$user_id = $_SESSION['id'];
+ 	$welcome ="<li><a style='color:Green;' href=''>welcome ".$fullname."</a></li>";
+ }
+
+
+
+
+ ?>
+
 <!--A Design by W3layouts
 Author: W3layout
 Author URL: http://w3layouts.com
@@ -58,9 +75,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<a href="index.html"><img src="images/logo.png" alt=""/></a>
 			</div>
 			<ul class="shopping_grid">
+					<?php
+				if(isset($_SESSION['id']) && isset($_SESSION['username'])){
+         		 echo $welcome; ?>		
+         		  <a href="#"><li><span class="m_1">Company Dashboard</span>&nbsp;&nbsp;&nbsp;<img src="" alt=""/></li></a>	
+         		  <?php }else{ ?>				
 			      <a href="register"><li>Get Started</li></a>
 			      <a href="login"><li>Sign In</li></a>
-			      <a href="#"><li><span class="m_1">Store</span>&nbsp;&nbsp;(0) &nbsp;<img src="images/bag.png" alt=""/></li></a>
+			      <?php } ?>
+			     
 			      <div class="clearfix"> </div>
 			</ul>
 		    <div class="clearfix"> </div>
