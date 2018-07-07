@@ -46,13 +46,13 @@ ul.shopping_grid li img{
 	margin-top: -4px;
 }
 ul.shopping_grid a li:hover {
-	color:#df1f26;
+	color:#3c763d;
 }
 ul.shopping_grid li:hover span.m_1{
 	color:#000;
 }
 span.m_1{
-	color:#df1f26;
+	color:#3c763d;
 }
 /* start h_menu */
 .header_bottom_right{
@@ -65,7 +65,7 @@ span.m_1{
 }
 .toggleMenu {
     display: none;
-	background:#df1f26;
+	background:#3c763d;
 	width: 100%;
 	color: #FFF;
 	font-size: 1.5em;
@@ -106,7 +106,7 @@ span.m_1{
 	margin:0
 }
 ul.nav li.active a, .nav li a:hover {
-	color:#df1f26;
+	color:#3c763d;
 }
 .nav li a:hover {
 }
@@ -466,7 +466,7 @@ ul.callbacks_tabs.callbacks1_tabs {
 	font: 800 13px/13px 'Lato', sans-serif;
 	margin: 8px 10px 0 0;
 	text-transform:uppercase;
-	color:#df1f26;
+	color:#3c763d;
 }
 .stay_right {
 	float: left;
@@ -483,7 +483,7 @@ ul.callbacks_tabs.callbacks1_tabs {
 	font: 500 13px/13px 'Lato', sans-serif;
 }
 .search input[type="submit"] {
-	background: url('../images/search.png') no-repeat 6px 5px #df1f26;
+	background: url('../images/search.png') no-repeat 6px 5px #3c763d;
 	padding: 4px 17px;
 	border: none;
 	cursor: pointer;
@@ -496,7 +496,7 @@ ul.callbacks_tabs.callbacks1_tabs {
 	padding: 1em 0 5em;
 }
 h3.menu_head {
-	background:#df1f26;
+	background:#3c763d;
 	padding:1em 0 1em 2em;
 	color: #fff;
 	text-transform: uppercase;
@@ -547,12 +547,12 @@ ul {
 	text-indent: 1.2em;
 }
 .menu ul li a:hover{
-	background:#df1f26;
+	background:#3c763d;
 	color:#fff;
 }
 .menu > li > a:hover, .menu > li > a.active {
 	background:#fff;
-	border-right: 5px solid #df1f26;
+	border-right: 5px solid #3c763d;
 }
 .menu ul.kid-menu li a{
 	border-bottom: none;
@@ -580,7 +580,7 @@ ul {
 }
 .twitter h3{
 	font:800 20px/20px 'Lato', sans-serif;
-	color:#df1f26;
+	color:#3c763d;
 	margin-bottom: 1em;
 }
 ul.twt1{
@@ -607,7 +607,7 @@ ul.twt1 li.twt1_desc{
 }
 .clients h3{
 	font:600 20px/20px 'Lato', sans-serif;
-	color:#df1f26;
+	color:#3c763d;
 	text-transform:uppercase;
 	margin-bottom:1.5em;
 }
@@ -910,7 +910,7 @@ h4.head{
 	padding: 30px 0 0 20px;
 }
 span.m_2{
-	color:#df1f26;
+	color:#3c763d;
 }
 .footer_bg{
 	background: url(../images/footer_bg.jpg) no-repeat center top;
@@ -960,7 +960,7 @@ ul.social li a:hover{
 	text-decoration:none;
 }
 ul.social li a:hover p{
-	color: #df1f26;
+	color: #3c763d;
 }
 p.m_3{
 	overflow: hidden;
@@ -1034,7 +1034,7 @@ ul.list1 li p{
 }
 .cssmenu ul li a:hover{
 	text-decoration:none;
-	color: #df1f26;
+	color: #3c763d;
 }
 .copy {
 	float: right;
@@ -1046,7 +1046,7 @@ ul.list1 li p{
 	text-transform:uppercase;
 }
 .copy p a {
-	color: #df1f26;
+	color: #3c763d;
 }
 .copy p a:hover{
 	color:#dee9f1;
@@ -1086,7 +1086,7 @@ span.reducedfrom {
 	font:500 25px/25px 'Lato', sans-serif;
 }
 span.actual {
-	color:#df1f26;
+	color:#3c763d;
 	font:500 25px/25px 'Lato', sans-serif;
 	margin-right: 5%;
 }
@@ -1095,7 +1095,7 @@ span.actual {
 	font:500 13px/13px 'Lato', sans-serif;
 }
 .price_single a:hover{
-	color:#df1f26;
+	color:#3c763d;
 }
 h2.quick {
 	color:#3e3f3f;
@@ -1118,7 +1118,7 @@ p.quick_desc {
 	margin-right: 45px;
 }
 .wish-list li a {
-	color:#df1f26;
+	color:#3c763d;
 	font:500 14px/14px 'Lato', sans-serif;
 	padding-left: 22px;
 	text-decoration: underline;
@@ -1155,7 +1155,7 @@ ul.size li a {
 	padding: 5px 10px;
 }
 ul.size li a:hover{
-	background:#df1f26;
+	background:#3c763d;
 	color:#fff;
 }
 .quantity_box {
@@ -1407,7 +1407,7 @@ p.comment-form-author {
 .contact-form input[type="submit"] {
 	display: inline-block;
 	padding: 13px 25px;
-	background:#df1f26;
+	background:#3c763d;
 	color: #FFF;
 	font-size: 1em;
 	line-height: 18px;
@@ -1488,14 +1488,14 @@ i.mail{
 }
 .page-not-found a {
 	color: #fff;
-	background:#df1f26;
+	background:#3c763d;
 	text-decoration: none;
 	padding: 15px 40px;
 	font: 300 16px/16px Lato, sans-serif;
 }
 /*--register--*/
 .register-top-grid h3, .register-bottom-grid h3 {
-	color:#df1f26;
+	color:#3c763d;
 	font-size: 1em;
 	padding-bottom: 5px;
 	margin: 0;
@@ -1591,7 +1591,7 @@ i.mail{
 	margin-top:1em;
 }
 .register-but form input[type="submit"] {
-	background:#df1f26;
+	background:#3c763d;
 	color: #FFF;
 	font-size: 0.8em;
 	padding: 0.8em 2em;
@@ -1615,7 +1615,7 @@ div.register-bottom-grid {
 	padding: 0;
 }
 .login-left h3, .login-right h3 {
-	color:#df1f26;
+	color:#3c763d;
 	font-size: 1em;
 	text-transform: uppercase;
 	font-weight: 600;
@@ -1629,7 +1629,7 @@ div.register-bottom-grid {
 	line-height: 1.8em;
 }
 .acount-btn {
-	background:#df1f26;
+	background:#3c763d;
 	color: #FFF;
 	font-size: 0.8em;
 	padding: 0.7em 1.2em;
@@ -1666,7 +1666,7 @@ div.register-bottom-grid {
 	padding:10px;
 }
 .login-right input[type="submit"] {
-	background:#df1f26;
+	background:#3c763d;
 	color: #FFF;
 	font-size: 0.8em;
 	padding: 0.7em 1.2em;
