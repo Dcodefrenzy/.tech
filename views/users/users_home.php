@@ -36,6 +36,7 @@ $show = showAllfarmersHome($conn,  $record_per_page);
 </div>
 
 		<?php if(isset($_SESSION['id']) && isset($_SESSION['username'])){ ?>
+			<input id="overlay" type="hidden" name="">
 		<?php }else{ ?>
 ​<div  id="overlay" onclick="off()">
 <div align="center" class="card" style="width: 50%; ;  position: fixed; top: 20%; right:30%; left:25%; bottom: 30%; ">
@@ -93,9 +94,9 @@ $show = showAllfarmersHome($conn,  $record_per_page);
 			  <ul class="menu">
 					<li class="item1" ><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/> Season</a>
 					<ul class="cute">
-					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)" class="subitem1" type="submit" value="Pre-Planting" size="20px" name="Pre-Planting"></a></li>
-					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="Planting" size="20px" name="Planting"></a></li>
-					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="harvesting" size="20px" name="harvesting"></a></li>
+					<li class="subitem1" ><a style="padding: 0px; margin:0px;" href="#"><input onclick="getSeason(this.value)" class="subitem1" type="submit" value="Pre-Planting" style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5; " name="Pre-Planting"></a></li>
+					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="Planting" style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5; " name="Planting"></a></li>
+					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="harvesting" style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5;" name="harvesting"></a></li>
 					</ul>
 				</li>
 				<li class="item2"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Women</a>
