@@ -78,7 +78,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<?php
 				if(isset($_SESSION['id']) && isset($_SESSION['username'])){
          		 echo $welcome; ?>		
-         		  <a href="#"><li><span class="m_1">Company Dashboard</span>&nbsp;&nbsp;&nbsp;<img src="" alt=""/></li></a>	
+         		  <a href="dashboard"><li><span class="m_1">Company Dashboard</span>&nbsp;&nbsp;&nbsp;<img src="" alt=""/></li></a>	
          		  <?php }else{ ?>				
 			      <a href="register"><li>Get Started</li></a>
 			      <a href="login"><li>Sign In</li></a>

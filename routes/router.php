@@ -279,6 +279,16 @@ switch ($uri[1]) {
   break;
 
 
+  case "dashboard":
+  include APP_PATH."/views/users/users_dashboard.php";
+  break;
+
+  
+
+  case "dashboard?unique_id=$unique_id":
+  include APP_PATH."/views/users/users_dashboard.php";
+  break;
+
  case "delete?cart_id=$cart_id":
   include APP_PATH."/views/users/del_cart.php";
   break;
@@ -290,9 +300,7 @@ switch ($uri[1]) {
   break;
 
 
-  case "updateCart?cart_id=$cart_id&&stock=$inventory":
-  include APP_PATH."/views/users/update_cart.php";
-  break;
+
 
 
 
