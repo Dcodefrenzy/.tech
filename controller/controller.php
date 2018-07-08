@@ -1531,48 +1531,22 @@ function userDisplayNewOffers($dbconn){
 
 }
 
-function getCart($dbconn,$user){
-  $count=0;
-  $stmt = $dbconn->prepare("SELECT * FROM cart WHERE user_id = :ui");
-  $stmt->bindParam(':ui', $user);
-  $stmt->execute();
-  // $count = $stmt->rowCount();
-  while($row = $stmt->fetch(PDO::FETCH_BOTH)){
-    extract($row);
-    $count += $quantity;
-  }
 
-  return $count;
-
-}
-function checkInventory($dbconn, $userID){
-$stmt = $dbconn->prepare("SELECT * FROM cart WHERE user_id = :pi");
-$stmt->bindParam(':pi', $userID);
-$stmt->execute();
-while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
-      extract($row);
-    $inventory = viewpreviewProduct($dbconn, $product_id);
-
-      if ($inventory < $quantity || $quantity < 1) {
-        header('Location:cart');
-      }
-}
-
-}
-function ifContactExit($dbconn, $uid, $userID ){
-    $stmt= $dbconn->prepare("SELECT * FROM contact WHERE unique_id = :ui AND hash_id = :hid");
+function ifContactExit($dbconn, $uid, $userId ){
+  $result = false;
+    $stmt= $dbconn->prepare("SELECT * FROM contact WHERE unique_id = :ui && hash_id = :hid");
      $stmt->bindParam(':ui', $uid);
     $stmt->bindParam(':hid', $userId);
     $stmt->execute();
      $count = $stmt->rowCount();
-     var_dump($count);
-  if($count==1){
+  if($count>0){
     $result = true;
   }
+  return $result;
 
 }
   function updateCOntact($dbconn, $uid, $iuserId){
-      $stmt= $dbconn->prepare("UPDATE contact SET unique_id = :ui WHERE hash_id = :hid");
+    $stmt= $dbconn->prepare("UPDATE contact SET unique_id = :ui WHERE hash_id = :hid");
     $stmt->bindParam(':ui', $uid);
     $stmt->bindParam(':hid', $userId);
     $stmt->execute();
@@ -1591,8 +1565,6 @@ function getContact($dbconn,  $userId){
     $stmt->execute();
  
     $count = $stmt->rowCount();
-    var_dump($count);
-
    
     for ($i=0; $i < $count ; $i++) { 
      $row=$stmt->fetch(PDO::FETCH_BOTH);
@@ -1627,7 +1599,8 @@ function getContact($dbconn,  $userId){
               <li class="grid_-1-left"></li>
               <li class="grid_1-left"><p>'.$inventory.' tons </p></li>
               <li class="grid_-1-left"><p> Season: <br>'.$season.'</p></li>
-              <li class="grid_1-right">  <a href=profile?unique_id='.$unique_id.' title="Get It" class="btn btn-primary btn-normal btn-inline "" target="_self">Connect</a> </li> 
+              <li class="grid_1-right">  <a href=profile?unique_id='.$unique_id.' title="Get It" class="btn btn-primary btn-normal btn-large btn-inline "" target="_self">Profile</a> </li> 
+              <li class="grid_1-right">  <a href=delete?unique_id='.$unique_id.' title="Get It" class="btn btn-primary btn-normal btn-large btn-inline "" target="_self">delete</a> </li>
             </ul>
             <div class="clearfix"> </div>
           </div>
@@ -1638,6 +1611,14 @@ function getContact($dbconn,  $userId){
    </div>';
    }
 
+}
+function deleteFarmerContact($dbconn, $uid, $userId){
+     $stmt= $dbconn->prepare("DELETE FROM contact WHERE  unique_id = :ui  && hash_id = :hid ");
+    $stmt->bindParam(':ui', $uid);
+    $stmt->bindParam(':hid', $userId);
+
+    $stmt->execute();
+    
 }
 
 ?>
