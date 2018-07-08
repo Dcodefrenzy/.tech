@@ -289,8 +289,8 @@ switch ($uri[1]) {
   include APP_PATH."/views/users/users_dashboard.php";
   break;
 
- case "delete?cart_id=$cart_id":
-  include APP_PATH."/views/users/del_cart.php";
+ case "delete?unique_id=$unique_id":
+  include APP_PATH."/views/users/users_delete.php";
   break;
 
 

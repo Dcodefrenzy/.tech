@@ -2,13 +2,7 @@
 ob_start();
 $page_title = "Home";
 include "includes/header.php"; 
-	$record_per_page = 20;
-	$page = "";
-	if(isset($_GET['page'])){
-	$page = $_GET['page'];
-	}else{
-	$page = 1;
-	}
+
 
 	if (isset($_SESSION['id'])) {
 		$id = $_SESSION['id'];
@@ -17,37 +11,18 @@ include "includes/header.php";
 		$unique_id = $_GET['unique_id'];
 		
 		if (ifContactExit($conn, $unique_id, $id )) {
+
 			updateCOntact($conn, $unique_id, $id);
 
 		}else{
-	 		
-	 		
 	 		addContact($conn, $unique_id, $id);
 			}
 	}											
-	$start_from = ($page-1)*$record_per_page;
-
-
-
-/*$pargination = getPaginationForAllFarmers($conn,  $record_per_page);
-$total_record = getTotalRecord($conn,  $record_per_page);*/
 
 
 
 
-
- 			//Generating $preview and $next.
-		/*if($page > 1){
- 			$prev = $page - 1;
- 		}else{
- 			$prev = 1;
- 		}
- 		if($total_record > 1 &&  $page != $total_record){
- 			$next = $page + 1;
- 		}
- 		else{
- 			$next = $total_record;
- 		}*/
+	
  ?>
 <div class="column_center">
   <div class="container">
@@ -62,9 +37,11 @@ $total_record = getTotalRecord($conn,  $record_per_page);*/
 			  <ul class="menu">
 					<li class="item1" ><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/> Season</a>
 					<ul class="cute">
-					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)" class="subitem1" type="submit" value="Pre-Planting" style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5; " name="Pre-Planting"></a></li>
-					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="Planting" style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5; " name="Planting"></a></li>
-					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="harvesting" style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5;" name="harvesting"></a></li>
+			<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value, this.name)" class="subitem1" type="submit" style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5; " value="<?php $id; ?>"  name="Pre-Planting"></a></li>
+
+			<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value, this.name)"  class="subitem1" type="submit"   style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5; " value="<?php $id; ?>" name="Planting"></a></li>
+
+			<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value, this.name)" value=<?php $id; ?> class="subitem1" type="submit"   style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5;" name="harvesting"></a></li>
 					</ul>
 				</li>
 		
@@ -146,71 +123,15 @@ $total_record = getTotalRecord($conn,  $record_per_page);*/
         </div>
       </div> 
 	</div>
-
-	<?php 	 echo   "<nav aria-label='Page navigation example'>
-  						<ul class='pagination'>
-    						<li class='page-item'>
-					<li><a href='farmers?page=".$prev."' aria-label='Previous'><span aria-hidden='true'>«</span></a></li>";
-            			echo $pargination;
-		 		 echo   "<li><a href='farmers?page=".$next."' aria-label='Next'><span aria-hidden='true'>»</span></a></li>
-		   			 </li>
-		   		</ul>
-			</nav>"; ?>
-
 </div>
 			<!--initiate accordion-->
 		<script type="text/javascript">
-
-					function getSub(id){
-
-  						var url = 'getLocal';
-  						var method = 'POST';
-  						var params = 'state_id=' + id;
-  						subAjax(url, method, params);
-					}
-
-					function subAjax(url, method, params){
-  					var xhr = new XMLHttpRequest();
-  					xhr.onreadystatechange = function(){
-    				if(xhr.readyState == 4){
-     					 var res = xhr.responseText;
-      						
-      					document.getElementById('sub').innerHTML = res ;
-   					 }
- 				 }
-  					xhr.open(method, url, true);
-  					xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-  					xhr.send(params);
-				}
-
-			function getSubCat(id){
-  				var url = 'search';
-  				console.log(url);
-  				var method ='POST';
-  				var params = 'lid=' + id;
-  				console.log(params);
-
-  				getFinalCat(url, method, params);
-				}
-
-				function getFinalCat(url, method, params){
-  				var xhr = new XMLHttpRequest();
-  				xhr.onreadystatechange = () =>{
-    				if(xhr.readyState == 4){
-      				var res = xhr.responseText;
-      				console.log(res)
-      				document.getElementById('display').innerHTML = res;
-    				}
-  				}
-  				xhr.open(method, url, true);
-  				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  				xhr.send(params);
-  			}
+				
   			//To fetch Season.
-  			function getSeason(name){
+  			function getSeason(name, id){
   				var url = 'season';
   				var method = 'post';
-  				var params = 'season=' + name;
+  				var params = 'season=' + name, 'user_id=' + id;
   				console.log(params);
   				console.log(url);
   				console.log(method);
@@ -222,7 +143,7 @@ $total_record = getTotalRecord($conn,  $record_per_page);*/
   				xhr.onreadystatechange = () =>{
   					if(xhr.readyState == 4){
   						var res = xhr.responseText;
-  						console.log(res);
+  					/*	console.log(res);*/
   						document.getElementById('display').innerHTML = res;
   					}
   				}
