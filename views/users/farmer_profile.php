@@ -142,7 +142,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			    <div class="wish-list">
 				 	<ul>
 				 		<li class="wish"><div name=<?php $profile['phone_number'] ?>	title="call" class="btn bt1 btn-primary btn-normal btn-inline " target="_self">Call</div></li>
-				 	    <li class="compare" ><a href=<?php echo "users_dashboard?unique_id=".$profile['unique_id']."" ;?> style="text-decoration: none;" title="Save Contact" class="btn bt1 btn-primary btn-normal btn-inline " target="_self">Save Contact</a></li>
+				 	    <li class="compare" ><a href=<?php echo "dashboard?unique_id=".$profile['unique_id']."" ;?> style="text-decoration: none;" title="Save Contact" class="btn bt1 btn-primary btn-normal btn-inline " target="_self">Save Contact</a></li>
 				 	</ul>
 				 </div>
 			</div>

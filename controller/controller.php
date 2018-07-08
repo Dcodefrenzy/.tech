@@ -1490,34 +1490,7 @@ echo   "<div class='col-md-3 product-left'>
   }
 
 }
-function userDisplayPopularDemand($dbconn){
-  $top_selling = "popular-demand";
 
-  $stmt= $dbconn->prepare("SELECT * FROM product WHERE flag =:ts");
-  $stmt->bindParam(':ts', $top_selling);
-  $stmt->execute();
-  while ($row = $stmt->fetch(PDO::FETCH_BOTH)){
-    $count = $stmt->rowCount();
-    extract($row);
-    echo "<div class='product-one'>
-          <div class='col-md-3 product-left'>
-            <div class='product-main simpleCart_shelfItem'>
-              <a href='preview' class='mask'><img class='img-responsive zoom-img' src=".$file_path." alt=".$product_name." /></a>
-              <div class='product-bottom'>
-                <h3>".$product_name."</h3>
-                <p>Explore Now</p>
-                <h4><a class='item_add' href='#'><i></i></a> <span class=' item_price'>$ 329</span></h4>
-              </div>
-              <div class='srch'>
-                <span>-50%</span>
-              </div>
-            </div>
-          </div>";
-
-
-  }
-
-}
 function userDisplayNewOffers($dbconn){
   $top_selling = "new-offers";
 
@@ -1584,6 +1557,86 @@ while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
         header('Location:cart');
       }
 }
+
+}
+function ifContactExit($dbconn, $uid, $userID ){
+    $stmt= $dbconn->prepare("SELECT * FROM contact WHERE unique_id = :ui AND hash_id = :hid");
+     $stmt->bindParam(':ui', $uid);
+    $stmt->bindParam(':hid', $userId);
+    $stmt->execute();
+     $count = $stmt->rowCount();
+     var_dump($count);
+  if($count==1){
+    $result = true;
+  }
+
+}
+  function updateCOntact($dbconn, $uid, $iuserId){
+      $stmt= $dbconn->prepare("UPDATE contact SET unique_id = :ui WHERE hash_id = :hid");
+    $stmt->bindParam(':ui', $uid);
+    $stmt->bindParam(':hid', $userId);
+    $stmt->execute();
+  }
+
+function addContact($dbconn, $uid, $userId){
+  $stmt= $dbconn->prepare("INSERT INTO contact (unique_id, hash_id) VALUES(:ui, :hid)");
+  $stmt->bindParam(':ui', $uid);
+    $stmt->bindParam(':hid', $userId);
+    $stmt->execute();
+}
+
+function getContact($dbconn,  $userId){
+    $stmt= $dbconn->prepare("SELECT * FROM contact WHERE  hash_id = :hid");
+    $stmt->bindParam(':hid', $userId);
+    $stmt->execute();
+ 
+    $count = $stmt->rowCount();
+    var_dump($count);
+
+   
+    for ($i=0; $i < $count ; $i++) { 
+     $row=$stmt->fetch(PDO::FETCH_BOTH);
+      extract($row);
+      viewContact($dbconn, $unique_id);
+    }
+   
+}
+
+  function viewContact($dbconn, $uid){
+     $stmt= $dbconn->prepare("SELECT * FROM farmers WHERE  unique_id = :ui");
+    $stmt->bindParam(':ui', $uid);
+    $stmt->execute();
+
+          while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
+          extract($row);
+          $state = getStateById($dbconn, $state);
+          $local = getLocalById($dbconn, $town);
+   
+  echo  '<div class="related_products">
+       <div class="col-md-3 top_grid1-box1 top_grid2-box2"><a href=profile?unique_id='.$unique_id.'>
+        <div class="grid_2">
+          <div class="b-link-stroke b-animate-go  thickbox">
+             <div style="background:url('.$file_path.'); height:200px; width: 200px; background-size: cover; background-position: center; background-repeat: no-repeat;" class="">
+        </div>
+         </div>
+          <div class="grid_2">
+            <p> '.$firstname." ".$lastname.' </p>
+            <p>Location: <br>'.$local.' </p> 
+            <p>'.$state.'</p>
+            <ul class="grid_2-bottom">
+              <li class="grid_-1-left"></li>
+              <li class="grid_1-left"><p>'.$inventory.' tons </p></li>
+              <li class="grid_-1-left"><p> Season: <br>'.$season.'</p></li>
+              <li class="grid_1-right">  <a href=profile?unique_id='.$unique_id.' title="Get It" class="btn btn-primary btn-normal btn-inline "" target="_self">Connect</a> </li> 
+            </ul>
+            <div class="clearfix"> </div>
+          </div>
+        </div>
+        
+
+      </a></div>
+   </div>';
+   }
 
 }
 
