@@ -54,6 +54,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				});
 
 			});
+
+				setTimeout(function(){
+			 	on();
+			 	console.log('Now');
+
+			 },10000);
+
+  			function on() {
+    		document.getElementById("overlay").style.display = "block";
+			}
+
+			function off() {
+    		document.getElementById("overlay").style.display = "none";
+			}
 		</script>
 <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
 		    <script type="text/javascript">
@@ -90,13 +104,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li class="active"><a href="index" data-hover="Home">Home</a></li>
 					<li><a href="about" data-hover="About Us">About Us</a></li>
 					<li><a href="view_farmers" data-hover="Careers">Farmers</a></li>
-					<li><a href="#" data-hover="Wish List">Wish List</a></li>
 					<li><a href="contact" data-hover="Contact Us">Contact Us</a></li>
 				 </ul>
 				 <script type="text/javascript" src="js/nav.js"></script>
 	      </div><!-- end h_menu4 -->
      </div>
 </div>
+			<?php if(isset($_SESSION['id']) && isset($_SESSION['username'])){ ?>
+			<input id="overlay" type="hidden" name="">
+		<?php }else{ ?>
+​<div  id="overlay" onclick="off()">
+<div align="center" class="card" style="width: 50%; ;  position: fixed; top: 20%; right:30%; left:25%; bottom: 30%; ">
+	  <div class="card-img-top" style="background:url(images/tech.jpg); height:100%; width: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;" class="">
+  			</div>
+<!--   <img class="card-img-top" src="images/p1.jpg" alt="Card image cap"> -->
+  <ul class="list-group list-group-flush" >
+    <p class="list-group-item">Its Important for you to have an account with us but if you already have one then login</p>
+  
+ 
+    <p class="list-group-item"><a href="register" class="card-link"><button type="button" class="btn btn-success">Register</button></a>
+    <a href="login" class="card-link"><button type="button" class="btn btn-success">Login</button></a></p>
+  
+</ul>
+</div>
+</div>
+<?php } ?>
 <div class="column_center">
   <div class="container">
 	<div class="search" >
