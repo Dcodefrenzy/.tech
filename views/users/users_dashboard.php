@@ -6,6 +6,8 @@ include "includes/header.php";
 
 	if (isset($_SESSION['id'])) {
 		$id = $_SESSION['id'];
+	}else{
+		header("Location:home");
 	}
 	if (isset($_GET['unique_id'])) {
 		$unique_id = $_GET['unique_id'];

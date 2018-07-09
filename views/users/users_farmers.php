@@ -36,6 +36,27 @@ $total_record = getTotalRecord($conn,  $record_per_page);
  			$next = $total_record;
  		}
  ?>
+
+ <?php if(isset($_SESSION['id']) && isset($_SESSION['username'])){ ?>
+	<input id="overlay" type="hidden" name="">
+	<?php }else{ ?>
+​<div  id="overlay" onclick="off()">
+<div align="center" class="card" style="width: 50%; ;  position: fixed; top: 20%; right:30%; left:25%; bottom: 30%; ">
+	  <div class="card-img-top" style="background:url(images/tech.jpg); height:100%; width: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;" class="">
+  			</div>
+<!--   <img class="card-img-top" src="images/p1.jpg" alt="Card image cap"> -->
+  <ul class="list-group list-group-flush" >
+    <p class="list-group-item">Its Important for you to have an account with us but if you already have one then login</p>
+  
+ 
+    <p class="list-group-item"><a href="register" class="card-link"><button type="button" class="btn btn-success">Register</button></a>
+    <a href="login" class="card-link"><button type="button" class="btn btn-success">Login</button></a></p>
+  
+</ul>
+</div>
+</div>
+<?php } ?>
+
 <div class="column_center">
   <div class="container">
 	<div class="search">
@@ -80,21 +101,6 @@ $total_record = getTotalRecord($conn,  $record_per_page);
 					<li class="subitem1" ><a href="#"><input onclick="getSeason(this.value)"  class="subitem1" type="submit" value="harvesting" style="height:50%; width:90%; padding: 0px; margin:0px; border: 0px solid #ddd; opacity: 0.5;" name="harvesting"></a></li>
 					</ul>
 				</li>
-				<li class="item2"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Women</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails </a></li>
-					</ul>
-				</li>
-				<li class="item3"><a href="#"><img class="arrow-img" src="images/f_menu.png" alt=""/>Fashion 2015</a>
-					<ul class="cute">
-						<li class="subitem1"><a href="#">Cute Kittens </a></li>
-						<li class="subitem2"><a href="#">Strange Stuff </a></li>
-						<li class="subitem3"><a href="#">Automatic Fails</a></li>
-					</ul>
-				</li>
-		
 			</ul>
 		</div>
 				<!--initiate accordion-->
@@ -286,6 +292,21 @@ $total_record = getTotalRecord($conn,  $record_per_page);
   				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   				xhr.send(params);
   			}
+
+  				//To display overlay for registration
+  				setTimeout(function(){
+			 	on();
+			 	console.log('Now');
+
+			 },10000);
+
+  			function on() {
+    		document.getElementById("overlay").style.display = "block";
+			}
+
+			function off() {
+    		document.getElementById("overlay").style.display = "none";
+			}
 		</script>
 <?php 
 include "includes/footer.php";

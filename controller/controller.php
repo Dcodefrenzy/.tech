@@ -311,8 +311,11 @@ function viewStates($dbconn){
   }
 }
  function viewStatesForHome($dbconn){
-  $stmt = $dbconn->prepare("SELECT * FROM states");
+  $st = 13;
+  $stmt = $dbconn->prepare("SELECT * FROM states WHERE state_id = :st");
+  $stmt->bindParam(':st', $st);
   $stmt->execute();
+
   while($record = $stmt->fetch()){
     extract($record);
     echo "<option value=\" $state_id\">$name</option>";
@@ -1618,7 +1621,7 @@ function deleteFarmerContact($dbconn, $uid, $userId){
     $stmt->bindParam(':hid', $userId);
 
     $stmt->execute();
-    
+
 }
 
 ?>

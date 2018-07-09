@@ -72,7 +72,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="header_top">
 		<div class="container">
 			<div class="logo">
-				<a href="index.html"><img src="images/logo.png" alt=""/></a>
+				<div style ="background-image:url(images/tech4rice.png); height:100px; width: 100px; background-size: cover; background-position: center; background-repeat: no-repeat;" href="index.html"></div>
 			</div>
 			<ul class="shopping_grid">
 					<?php
@@ -96,7 +96,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li class="active"><a href="index" data-hover="Home">Home</a></li>
 					<li><a href="about" data-hover="About Us">About Us</a></li>
 					<li><a href="view_farmers" data-hover="Careers">Farmers</a></li>
-					<li><a href="#" data-hover="Wish List">Wish List</a></li>
 					<li><a href="contact" data-hover="Contact Us">Contact Us</a></li>
 				 </ul>
 				 <script type="text/javascript" src="js/nav.js"></script>

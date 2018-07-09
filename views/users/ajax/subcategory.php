@@ -22,7 +22,7 @@
           extract($row);
 
 
-          echo "<option value=".$local_id.">".$local_name."'</option>";
+          echo "<option value=".$local_id.">".$local_name."</option>";
 
         }
 
