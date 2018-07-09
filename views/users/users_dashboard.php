@@ -1,6 +1,6 @@
 <?php 
 ob_start();
-$page_title = "Home";
+$page_title = "Dashboard";
 include "includes/header.php"; 
 
 

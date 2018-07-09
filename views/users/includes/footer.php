@@ -4,13 +4,13 @@
 	<div class="container">
 		<div class="col-md-3 f_grid1">
 			<h3>About</h3>
-			<a href="#"><img src="images/logo.png" alt=""/></a>
+			<div style ="background-image:url(images/tech4rice.png); height:200px; width: 200px; background-size: cover; background-position: center; background-repeat: no-repeat;" href="index.html"></div>
 			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
 		</div>
 		<div class="col-md-3 f_grid1 f_grid2">
 			<h3>Follow Us</h3>
 			<ul class="social">
-				<li><a href=""> <i class="fb"> </i><p class="m_3">Facebook</p><div class="clearfix"> </div></a></li>
+				<li><a href="https://web.facebook.com/Technology-for-Rice-169764933740341/"> <i class="fb"> </i><p class="m_3">Facebook</p><div class="clearfix"> </div></a></li>
 			    <li><a href=""><i class="tw"> </i><p class="m_3">Twittter</p><div class="clearfix"> </div></a></li>
 				<li><a href=""><i class="google"> </i><p class="m_3">Google</p><div class="clearfix"> </div></a></li>
 				<li><a href=""><i class="instagram"> </i><p class="m_3">Instagram</p><div class="clearfix"> </div></a></li>
@@ -20,7 +20,6 @@
 			<h3>Contact Info</h3>
 			<ul class="list">
 				<li><p>Phone : 1.800.254.5487</p></li>
-				<li><p>Fax : 1.800.254.2548</p></li>
 				<li><p>Email : <a href="mailto:info(at)fashionpress.com"> info(at)fashionpress.com</a></p></li>
 			</ul>
 			<ul class="list1">
@@ -34,15 +33,14 @@
        	<div class="container">
        		<div class="cssmenu">
 				<ul>
-					<li class="active"><a href="login.html">Privacy Policy</a></li> .
-					<li><a href="checkout.html">Terms of Service</a></li> .
-					<li><a href="checkout.html">Creative Rights Policy</a></li> .
-					<li><a href="login.html">Contact Us</a></li> .
-					<li><a href="register.html">Support & FAQ</a></li>
+					<li class="active"><a href="login">Privacy Policy</a></li> .
+					<li><a href="#">Terms of Service</a></li> .
+					<li><a href="#">Creative Rights Policy</a></li> .
+					<li><a href="#">Contact Us</a></li> .
 				</ul>
 			</div>
 			<div class="copy">
-			    <p>&copy;  2015 Template by <a href="http://w3layouts.com" target="_blank">w3layouts</a></p>
+			    <p>&copy;  201* Developed By <a href="http://mckodev.com.ng" target="_blank">Mckodev</a></p>
 		    </div>
 		    <div class="clearfix"> </div>
        	</div>

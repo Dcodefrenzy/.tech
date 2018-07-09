@@ -1,6 +1,6 @@
 <?php 
 ob_start();
-$page_title = "Home";
+$page_title = "Prevew";
 include "includes/header.php"; 
 	$record_per_page = 20;
 	$page = "";

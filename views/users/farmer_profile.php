@@ -10,6 +10,13 @@ $state = getStateById($conn, $profile['state']);
 $local = getLocalById($conn, $profile['town']);
 $related = showRelatedFarmers($conn, $profile['town'], $record_limit);
 
+if(isset($_SESSION['username']) && ($_SESSION['id'])){
+ 	$fullname = $_SESSION['username'];
+ 	$user_id = $_SESSION['id'];
+ 	$welcome ="<li><a style='color:Green;' href=''>welcome ".$fullname."</a></li>";
+ }
+
+
 
 
  ?>
@@ -27,6 +34,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Fashionpress Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<style>
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+</style>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -55,19 +77,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 			});
 
-				setTimeout(function(){
-			 	on();
-			 	console.log('Now');
-
-			 },10000);
-
-  			function on() {
-    		document.getElementById("overlay").style.display = "block";
-			}
-
-			function off() {
-    		document.getElementById("overlay").style.display = "none";
-			}
 		</script>
 <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
 		    <script type="text/javascript">
@@ -89,9 +98,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<a href="index.html"><img src="images/logo.png" alt=""/></a>
 			</div>
 			<ul class="shopping_grid">
+					<?php
+				if(isset($_SESSION['id']) && isset($_SESSION['username'])){
+         		 echo $welcome; ?>		
+         		  <a href="dashboard"><li><span class="m_1">Company Dashboard</span>&nbsp;&nbsp;&nbsp;<img src="" alt=""/></li></a>	
+         		  <a href="user_logout"><li><span class="m_1">logout</span>&nbsp;&nbsp;&nbsp;<img src="" alt=""/></li></a>	
+         		  <?php }else{ ?>				
 			      <a href="register"><li>Get Started</li></a>
 			      <a href="login"><li>Sign In</li></a>
-			      <a href="#"><li><span class="m_1">Store</span>&nbsp;&nbsp;(0) &nbsp;<img src="images/bag.png" alt=""/></li></a>
+			      <?php } ?>
+			     
 			      <div class="clearfix"> </div>
 			</ul>
 		    <div class="clearfix"> </div>
@@ -104,6 +120,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li class="active"><a href="index" data-hover="Home">Home</a></li>
 					<li><a href="about" data-hover="About Us">About Us</a></li>
 					<li><a href="view_farmers" data-hover="Careers">Farmers</a></li>
+					<li><a href="#" data-hover="Wish List">Wish List</a></li>
 					<li><a href="contact" data-hover="Contact Us">Contact Us</a></li>
 				 </ul>
 				 <script type="text/javascript" src="js/nav.js"></script>
@@ -240,6 +257,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       </div> 
 	</div>
 </div>
+<script type="text/javascript">
+	
+				setTimeout(function(){
+			 	on();
+			 	console.log('Now');
+
+			 },10000);
+
+  			function on() {
+    		document.getElementById("overlay").style.display = "block";
+			}
+
+			function off() {
+    		document.getElementById("overlay").style.display = "none";
+			}
+</script>
 <?php 
 include "includes/footer.php";
  ?>
