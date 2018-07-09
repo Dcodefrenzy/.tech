@@ -3,7 +3,7 @@ $uri = explode("/", $_SERVER['REQUEST_URI']);
 //var_dump($uri);
 
 if(count($uri)> 2){
-  header("Location:/admin_home");
+  header("Location:/home");
 }
 
 //Creating A Null variable to be populated for the query String Route;
@@ -260,14 +260,6 @@ switch ($uri[1]) {
   include APP_PATH."/views/users/users_login.php";
   break;
 
-  case "cart":
-  include APP_PATH."/views/users/users_cart.php";
-  break;
-
-  
-  case "cart?msg=$msg":
-  include APP_PATH."/views/users/users_cart.php";
-  break;
 
 
   case "profile":
@@ -293,11 +285,11 @@ switch ($uri[1]) {
   include APP_PATH."/views/users/users_delete.php";
   break;
 
-
+ case "user_logout":
+ include APP_PATH."/views/users/users_logout.php";
+ break;
   
-  case "confirmation?hash_id=$hash_id":
-  include APP_PATH."/views/users/confirmation.php";
-  break;
+
 
 
 

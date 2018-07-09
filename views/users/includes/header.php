@@ -2,8 +2,7 @@
 
 $welcome = "";
 session_start();
-$sid = md5(session_id());
-$cart_numb = 0;
+
 if(isset($_SESSION['username']) && ($_SESSION['id'])){
  	$fullname = $_SESSION['username'];
  	$user_id = $_SESSION['id'];
@@ -24,7 +23,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Fashionpress an E-Commerce online Shopping Category Flat Bootstarp responsive Website Template| Home :: w3layouts</title>
+<title>Tech4rice| <?php echo $page_title ?>  </title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Fashionpress Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
@@ -72,13 +71,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="header_top">
 		<div class="container">
 			<div class="logo">
-				<div style ="background-image:url(images/tech4rice.png); height:100px; width: 100px; background-size: cover; background-position: center; background-repeat: no-repeat;" href="index.html"></div>
+				<div style ="background-image:url(images/tech4rice.png); height:100px; width: 100px; background-size: cover; background-position: center; background-repeat: no-repeat;" href="home"></div>
 			</div>
 			<ul class="shopping_grid">
 					<?php
 				if(isset($_SESSION['id']) && isset($_SESSION['username'])){
          		 echo $welcome; ?>		
          		  <a href="dashboard"><li><span class="m_1">Company Dashboard</span>&nbsp;&nbsp;&nbsp;<img src="" alt=""/></li></a>	
+         		  <a href="user_logout"><li><span class="m_1">logout</span>&nbsp;&nbsp;&nbsp;<img src="" alt=""/></li></a>	
          		  <?php }else{ ?>				
 			      <a href="register"><li>Get Started</li></a>
 			      <a href="login"><li>Sign In</li></a>

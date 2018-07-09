@@ -13,19 +13,19 @@ $show = showAllfarmersHome($conn,  $record_per_page);
 <div class="slider">
 	  <div class="callbacks_container">
 	      <ul class="rslides" id="slider">
-	        <li><img src="images/tech.jpg" class="img-responsive" alt=""/>
+	        <li><div style ="background-image:url(images/tech.jpg); height:500px; width: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;" href="index.html"></div>
 	        <div class="banner_desc">
 				<h1>We Provide Worlds top fashion for less fashionpress.</h1>
 				<h2>FashionPress the name of the of hi class fashion Web FreePsd.</h2>
 			</div>
 	        </li>
-	        <li><img src="images/women-farmers.jpg" class="img-responsive" alt=""/>
+	        <li><div style ="background-image:url(images/women-farmers.jpg); height:500px; width: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;" href="index.html"></div>
 	         <div class="banner_desc">
 				<h1>Duis autem vel eum iriure dolor in hendrerit.</h1>
 				<h2>Claritas est etiam processus dynamicus, qui sequitur .</h2>
 			 </div>
 	        </li>
-	        <li><img src="images/rice-grain.jpg" class="img-responsive" alt=""/>
+	        <li><div style ="background-image:url(images/rice-grain.jpg); height:500px; width: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;" href="index.html"></div>
 	          <div class="banner_desc">
 				<h1>Ut wisi enim ad minim veniam, quis nostrud.</h1>
 				<h2>Mirum est notare quam littera gothica, quam nunc putamus.</h2>
