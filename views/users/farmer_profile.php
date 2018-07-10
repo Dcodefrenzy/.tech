@@ -1,4 +1,5 @@
-<?php 
+<?php
+session_start(); 
 if (isset($_GET['unique_id'])) {
 	$id = $_GET['unique_id'];
 }
